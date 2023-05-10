@@ -16,8 +16,13 @@ body {
 :root {
     /* Use a color close to but not exactly black */
     --text-black: #30323d;
-    --primary-color: #c0d9d2;
+    --primary-color: #faf6eb; /*#c0d9d2*/
     --accent-color: #00b0ad;
+    /* note: do we need the primary colors?*/
+    /* --second-primary-color: #e5918b; */
+    --second-accent-color: #d88c91;
+    /* --third-primary-color: #e6dff6; */
+    --third-accent-color: #75b5db;
 }
 
 /*---
@@ -98,7 +103,7 @@ SECTIONS
 }
 
 /*---
-3D SHAPE SECTION GRAPHIC
+SECTION HEADER & GRAPHIC
 ---*/
 .section-title {
     position: absolute;
@@ -121,11 +126,11 @@ SECTIONS
 .styleThree {
     position: absolute;
     display: block;
-    width: 100%;
+    width: 120%;
     max-width: 278px;
     height: 60px;
     border: 1px solid var(--accent-color);
-    transform-origin: left; /* set origin for text*/
+    transform-origin: left;
     transform: skewY(-25deg);
 }
 
@@ -170,14 +175,14 @@ HERO
 
 .hero-main {
     position: absolute;
-    top: calc(50% - 100px);
-    left: 200px;
+    top: calc(50% - 200px);
+    left: 230px;
 }
 
 .hero-second {
     position: absolute;
     bottom: 200px; /* note: adjust to liking */
-    right: 150px;
+    right: 270px;
 }
 
 .hero-main-title {
@@ -192,4 +197,43 @@ HERO
     font-size: 32px;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+}
+
+/*---
+SECTION (OTHER COLORS)
+---
+text = section title
+border = outline for section divider 3D shape 
+background = fill-in color for section divider 3D shape */
+
+.red-text {
+    color: var(--second-accent-color);
+}
+
+.red-border {
+    border-color: var(--second-accent-color);
+}
+
+.red-background {
+    background-color: var(--second-accent-color);
+}
+
+.blue-text {
+    color: var(--third-accent-color);
+}
+.blue-border {
+    border-color: var(--third-accent-color);
+}
+.blue-background {
+    background-color: var(--third-accent-color);
+}
+
+/*---
+MEDIA QUERIES
+---
+To make scene responsive */
+@media (max-width: 968px) {
+    .section {
+        width: 100%;
+    }
 }
