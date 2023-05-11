@@ -40,37 +40,32 @@ export default class Room {
                 });
             }
 
-            console.log(child);
-
             // Create a glass effect for tank water
-            if (child.name === 'tank_water') {
-                child.material = new THREE.MeshPhysicalMaterial();
-                child.material.color.set('#DCF9FF');
-                child.material.metalness = 0;
-                // How reflective material is
-                child.material.roughness = 0;
-                // How much light is refracted, [1-2.3]
-                child.material.ior = 2;
-                // Transparency of material
-                child.material.transmission = 1;
-                // Visibility of object
-                child.material.opacity = 1;
-                child.material.envMap = 1;
-            }
-
-            // Add videoTexture to laptop screen
-            if (child.name === 'laptop_screen') {
-                child.material = new THREE.MeshBasicMaterial({
-                    map: this.resources.items.laptop_screen
+            if (child.name === 'bag_pets') {
+                child.children[0].children.forEach((e) => {
+                    if (e.material.name === 'tank_water') {
+                        e.material = new THREE.MeshPhysicalMaterial();
+                        e.material.color.set('#DCF9FF');
+                        e.material.metalness = 0;
+                        // How reflective material is
+                        e.material.roughness = 0;
+                        // How much light is refracted, [1-2.3]
+                        e.material.ior = 2;
+                        // Transparency of material
+                        e.material.transmission = 1;
+                        // Visibility of object
+                        e.material.opacity = 1;
+                        e.material.envMap = 1;
+                    }
                 });
             }
 
-            // Add image texture to iPad
             // Add videoTexture to laptop screen
-            if (child.name === 'laptop_screen') {
-                child.material = new THREE.MeshBasicMaterial({
-                    map: this.resources.items.laptop_screen
-                });
+            if (child.name === 'desk_stuff') {
+                child.children[3].children[0].material =
+                    new THREE.MeshBasicMaterial({
+                        map: this.resources.items.laptop_screen
+                    });
             }
         });
 
