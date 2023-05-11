@@ -12,6 +12,7 @@ import World from './World/World';
 
 import Camera from './Camera';
 import Renderer from './Renderer';
+import Preloader from './Preloader';
 
 export default class Experience {
     static instance;
@@ -28,6 +29,7 @@ export default class Experience {
         this.renderer = new Renderer();
         this.resources = new Resources(assets);
         this.world = new World(); // order matters, must be called after everything
+        this.preloader = new Preloader();
 
         // Updates other classes' update functions when SIZE updates
         this.sizes.on('resize', () => {

@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { EventEmitter } from 'events';
+
 import Experience from '../Experience';
 import Environment from './Environment';
 
@@ -6,8 +8,9 @@ import Room from './Room';
 import Controls from './Controls';
 import Floor from './Floor';
 
-export default class World {
+export default class World extends EventEmitter {
     constructor() {
+        super();
         this.experience = new Experience();
         this.sizes = this.experience.sizes;
         this.scene = this.experience.scene;
@@ -21,6 +24,7 @@ export default class World {
             this.room = new Room();
             this.floor = new Floor();
             this.controls = new Controls();
+            this.emit('world loaded');
         });
     }
 
