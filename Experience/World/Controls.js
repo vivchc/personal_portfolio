@@ -1,4 +1,4 @@
-// Handles all movements for the camera/room
+// Handles all the controls for the camera/room (?)
 import * as THREE from 'three';
 import Experience from '../Experience';
 import GSAP from 'gsap';

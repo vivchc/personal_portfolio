@@ -4,7 +4,7 @@ export default [
     {
         name: 'room',
         type: 'glbModel',
-        path: '/models/ROOM_ver01.glb'
+        path: '/models/ROOM_animation.glb'
     },
     {
         name: 'laptop_screen',

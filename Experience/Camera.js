@@ -39,7 +39,8 @@ export default class Camera {
             40
         );
 
-        this.orthographicCamera.position.y = 4.6;
+        this.orthographicCamera.position.x = -0.2;
+        this.orthographicCamera.position.y = 4.5;
         this.orthographicCamera.position.z = 6.5;
         this.orthographicCamera.rotation.x = -Math.PI / 7;
 
@@ -81,8 +82,8 @@ export default class Camera {
             (this.sizes.aspect * this.sizes.frustrum) / 2;
         this.orthographicCamera.top = this.sizes.frustrum / 2;
         this.orthographicCamera.bottom = -this.sizes.frustrum / 2;
-        this.orthographicCamera.near = this.sizes.frustrum / 2;
-        this.othographicCamera.far = this.sizes.frustrum / 2;
+        // this.orthographicCamera.near = this.sizes.frustrum / 2;
+        // this.orthographicCamera.far = this.sizes.frustrum / 2;
         this.orthographicCamera.updateProjectionMatrix();
     }
 

@@ -40,6 +40,8 @@ export default class Room {
                 });
             }
 
+            console.log(child);
+
             // Create a glass effect for tank water
             if (child.name === 'tank_water') {
                 child.material = new THREE.MeshPhysicalMaterial();
