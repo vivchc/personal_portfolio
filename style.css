@@ -218,3 +218,12 @@ SECTION (OTHER COLORS)
 .blue-background {
     background-color: var(--third-accent-color);
 }
+
+/*---
+MEDIA QUERIES
+---*/
+@media (max-width: 968px) {
+    .section {
+        width: 100%;
+    }
+}

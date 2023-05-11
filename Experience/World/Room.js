@@ -31,6 +31,18 @@ export default class Room {
         this.actualRoom.children.forEach((child) => {
             child.castShadow = true;
             child.receiveShadow = true;
+            // Make objects within empty objects cast shadows
+            if (
+                child instanceof THREE.Object3D ||
+                child instanceof THREE.Group
+            ) {
+                for (let i = 0; i < child.children.length; i++) {
+                    child.children[i].children.forEach((groupChild) => {
+                        groupChild.castShadow = true;
+                        groupChild.receiveShadow = true;
+                    });
+                }
+            }
 
             // Make grouped children also cast shadows
             if (child instanceof THREE.Group) {
@@ -78,8 +90,12 @@ export default class Room {
     setAnimation() {
         this.mixer = new THREE.AnimationMixer(this.actualRoom);
 
-        this.swim = this.mixer.clipAction(this.room.animations[42]);
-        this.swim.play();
+        this.room.animations.forEach((ani) => {
+            if (ani.name.includes('fishAction')) {
+                this.swim = this.mixer.clipAction(ani);
+                this.swim.play();
+            }
+        });
     }
 
     // Slightly rotate room depending on cursor location
