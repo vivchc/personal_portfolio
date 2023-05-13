@@ -27,7 +27,8 @@ export default class Controls {
             // Desktop
             '(min-width: 969px)': () => {
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
-                // First section
+
+                //---FIRST SECTION---
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
@@ -37,7 +38,7 @@ export default class Controls {
                         scrub: 1, // animates with scroll
                         invalidateOnRefresh: true
                     }
-                }).to(this.camera.orthographicCamera.position, {
+                }).to(this.camera.orthographimera.position, {
                     x: -2.7, // positive=model moves left
                     y: 4.5 // position relative to camera's starting point
                 });
@@ -47,7 +48,7 @@ export default class Controls {
                 //     }
                 // });
 
-                // Second section
+                //---SECOND SECTION---
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
@@ -77,7 +78,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Third section
+                //---THIRD SECTION---
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
@@ -95,7 +96,43 @@ export default class Controls {
             },
 
             // Mobile. Should be the same max-width as media query in style.css
-            '(max-width: 968px)': () => {},
+            '(max-width: 968px)': () => {
+                //---FIRST SECTION---
+                this.firstMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.first-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                //---SECOND SECTION---
+                this.secondMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.second-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                //---THIRD SECTION---
+                this.thirdMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.third-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                });
+            },
             // all
             all: () => {}
         });
