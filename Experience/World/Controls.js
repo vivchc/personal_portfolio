@@ -13,6 +13,10 @@ export default class Controls {
         this.time = this.experience.time;
         this.camera = this.experience.camera;
         this.room = this.experience.world.room.actualRoom;
+        // note: should this be for the ortho camera?
+        this.zoom = { zoomValue: this.camera.perspectiveCamera.zoom };
+
+        console.log(this.sizes.width);
 
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);
@@ -25,6 +29,7 @@ export default class Controls {
         ScrollTrigger.matchMedia({
             // Desktop
             '(min-width: 969px)': () => {
+                // note: do we need this line to set ortho. camera position?
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
                 // First section
                 this.firstMoveTimeline = new GSAP.timeline({
@@ -66,12 +71,27 @@ export default class Controls {
                         },
                         'same'
                     )
+                    // Don't scale room; distorted shadows from wrong light position
                     .to(
-                        this.room.scale,
+                        this.zoom,
                         {
-                            x: 2.3,
-                            y: 2.3,
-                            z: 2.3
+                            // Zoom for perspective camera
+                            zoomValue: () => {
+                                // note: Should we change 1024 to 968px (bc max-width in style.css)
+                                if (this.sizes.width < 1024) {
+                                    console.log('<1024');
+                                    return 2;
+                                } else {
+                                    console.log('>=1024');
+                                    return 1;
+                                }
+                            },
+                            onUpdate: () => {
+                                // note: why is the ortho. zoom same as perspective
+                                this.camera.orthographicCamera.zoom =
+                                    this.zoom.zoomValue;
+                                this.camera.orthographicCamera.updateProjectionMatrix();
+                            }
                         },
                         'same'
                     );
