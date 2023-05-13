@@ -31,6 +31,7 @@ export default class Controls {
             '(min-width: 969px)': () => {
                 // note: do we need this line to set ortho. camera position?
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
+
                 // First section
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
@@ -42,14 +43,14 @@ export default class Controls {
                         invalidateOnRefresh: true
                     }
                 }).to(this.camera.orthographicCamera.position, {
-                    x: -2.7, // positive=model moves left
-                    y: 4.5 // position relative to camera's starting point
+                    // todo: set position for small desktops
+                    x: () => {
+                        return this.sizes.width < 1024 ? 0.8 : -2.7;
+                    },
+                    y: () => {
+                        return this.sizes.width < 1024 ? 0.8 : 4.5;
+                    }
                 });
-                // }).to(this.room.position, {
-                //     x: () => {
-                //         return this.sizes.width * 0.002;
-                //     }
-                // });
 
                 // Second section
                 this.secondMoveTimeline = new GSAP.timeline({
@@ -65,9 +66,13 @@ export default class Controls {
                     .to(
                         this.camera.orthographicCamera.position,
                         {
-                            // Relative to last ortho. camera position
-                            x: 3.3, // positive=model moves left
-                            y: 5.9 // positive=model moves up
+                            // todo: set position for small desktops
+                            x: () => {
+                                return this.sizes.width < 1024 ? 0.8 : 1.1;
+                            },
+                            y: () => {
+                                return this.sizes.width < 1024 ? 0.8 : 4.4;
+                            }
                         },
                         'same'
                     )
@@ -77,14 +82,7 @@ export default class Controls {
                         {
                             // Zoom for perspective camera
                             zoomValue: () => {
-                                // note: Should we change 1024 to 968px (bc max-width in style.css)
-                                if (this.sizes.width < 1024) {
-                                    console.log('<1024');
-                                    return 2;
-                                } else {
-                                    console.log('>=1024');
-                                    return 1;
-                                }
+                                return this.sizes.width < 1024 ? 2 : 2.6;
                             },
                             onUpdate: () => {
                                 // note: why is the ortho. zoom same as perspective
@@ -108,8 +106,16 @@ export default class Controls {
                     }
                 }).to(this.camera.orthographicCamera.position, {
                     // Relative to last ortho. camera position
-                    x: -6.5, // positive=model moves left
-                    y: 3.7 // positive=model moves up
+                    // x-positive=model moves left
+                    // y-positive=model moves up
+                    x: () => {
+                        // fix: x position when screen > 1024 in width
+                        return this.sizes.width < 1024 ? 0.8 : -2.4;
+                    },
+                    y: () => {
+                        // fix: y position when screen > 1024 in width
+                        return this.sizes.width < 1024 ? 0.8 : 3.4;
+                    }
                 });
             },
 
