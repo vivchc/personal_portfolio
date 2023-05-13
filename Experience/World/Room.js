@@ -29,27 +29,15 @@ export default class Room {
     setModel() {
         // Set shadows for each child of the room model
         this.actualRoom.children.forEach((child) => {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            // Make objects within empty objects cast shadows
-            if (
-                child instanceof THREE.Object3D ||
-                child instanceof THREE.Group
-            ) {
-                for (let i = 0; i < child.children.length; i++) {
-                    child.children[i].children.forEach((groupChild) => {
-                        groupChild.castShadow = true;
-                        groupChild.receiveShadow = true;
-                    });
-                }
-            }
-
-            // Make grouped children also cast shadows
-            if (child instanceof THREE.Group) {
-                child.children.forEach((groupChild) => {
-                    groupChild.castShadow = true;
-                    groupChild.receiveShadow = true;
+            // Child is empty obj. holding groups and meshes
+            if (child.type === 'Object3D') {
+                // Loop through children, see if group or mesh
+                child.children.forEach((e) => {
+                    this.castShadow(e);
                 });
+            } else {
+                // Child is group or mesh
+                this.castShadow(child);
             }
 
             // Create a glass effect for tank water
@@ -84,6 +72,22 @@ export default class Room {
         this.scene.add(this.actualRoom);
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
+    }
+
+    // Takes in a group or mesh object and cast shadows for them/each
+    castShadow(e) {
+        if (e.type === 'Group') {
+            // Loop through group children
+            e.children.forEach((groupChild) => {
+                // Cast shadow for each group child
+                groupChild.castShadow = true;
+                groupChild.receiveShadow = true;
+            });
+        } else {
+            // Is a mesh; directly cast shadow
+            e.castShadow = true;
+            e.receiveShadow = true;
+        }
     }
 
     // Add animation for fish
