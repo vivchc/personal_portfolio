@@ -13,6 +13,7 @@ export default class Controls {
         this.time = this.experience.time;
         this.camera = this.experience.camera;
         this.room = this.experience.world.room.actualRoom;
+        this.zoom = { zoomValue: this.camera.perspectiveCamera.zoom };
 
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);

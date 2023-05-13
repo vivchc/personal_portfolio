@@ -27,7 +27,7 @@ export default class Room {
 
     // Add room model to scene
     setModel() {
-        // Set shadows for each child of the room model
+        // Set shadows for each component of the room model
         this.actualRoom.children.forEach((child) => {
             // Child is empty obj. holding groups and meshes
             if (child.type === 'Object3D') {
@@ -77,9 +77,8 @@ export default class Room {
     // Takes in a group or mesh object and cast shadows for them/each
     castShadow(e) {
         if (e.type === 'Group') {
-            // Loop through group children
+            // Cast shadow for each child in group
             e.children.forEach((groupChild) => {
-                // Cast shadow for each group child
                 groupChild.castShadow = true;
                 groupChild.receiveShadow = true;
             });
