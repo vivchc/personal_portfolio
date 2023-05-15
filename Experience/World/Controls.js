@@ -13,8 +13,7 @@ export default class Controls {
         this.time = this.experience.time;
         this.camera = this.experience.camera;
         this.room = this.experience.world.room.actualRoom;
-        // note: should this be for the ortho camera?
-        this.zoom = { zoomValue: this.camera.perspectiveCamera.zoom };
+        this.zoom = { zoomValue: this.camera.orthographicCamera.zoom };
 
         console.log(this.sizes.width);
 
@@ -29,8 +28,10 @@ export default class Controls {
         ScrollTrigger.matchMedia({
             // Desktop
             '(min-width: 969px)': () => {
-                // note: do we need this line to set ortho. camera position?
+                // note: do we need to set ortho. camera and room scale here?
+                // Landing page
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
+                this.room.scale.set(0.8, 0.8, 0.8);
 
                 // First section
                 this.firstMoveTimeline = new GSAP.timeline({
@@ -42,15 +43,19 @@ export default class Controls {
                         scrub: 1, // animates with scroll
                         invalidateOnRefresh: true
                     }
-                }).to(this.camera.orthographicCamera.position, {
-                    // todo: set position for small desktops
-                    x: () => {
-                        return this.sizes.width < 1024 ? 0.8 : -2.7;
-                    },
-                    y: () => {
-                        return this.sizes.width < 1024 ? 0.8 : 4.5;
-                    }
-                });
+                })
+                    // Relative to last ortho. camera position
+                    .to(
+                        this.camera.orthographicCamera.position,
+                        {
+                            // x: () => {
+                            //     return this.sizes.width <= 1024 ? -2.7 : -2.2;
+                            // },
+                            x: -2.7,
+                            y: 4.5
+                        },
+                        'same'
+                    );
 
                 // Second section
                 this.secondMoveTimeline = new GSAP.timeline({
@@ -63,16 +68,15 @@ export default class Controls {
                         invalidateOnRefresh: true
                     }
                 })
+                    // Relative to last ortho. camera position
                     .to(
                         this.camera.orthographicCamera.position,
                         {
-                            // todo: set position for small desktops
-                            x: () => {
-                                return this.sizes.width < 1024 ? 0.8 : 1.1;
-                            },
-                            y: () => {
-                                return this.sizes.width < 1024 ? 0.8 : 4.4;
-                            }
+                            // x: () => {
+                            //     return this.sizes.width <= 1024 ? 1.1 : 1;
+                            // },
+                            x: 1.1,
+                            y: 4.4
                         },
                         'same'
                     )
@@ -80,9 +84,10 @@ export default class Controls {
                     .to(
                         this.zoom,
                         {
-                            // Zoom for perspective camera
                             zoomValue: () => {
-                                return this.sizes.width < 1024 ? 2 : 2.6;
+                                // Zoom for perspective camera
+                                // todo: haven't checked if the ternary operator is needed
+                                return this.sizes.width <= 1024 ? 2 : 2.6;
                             },
                             onUpdate: () => {
                                 // note: why is the ortho. zoom same as perspective
@@ -104,23 +109,104 @@ export default class Controls {
                         scrub: 1, // animates with scroll
                         invalidateOnRefresh: true
                     }
-                }).to(this.camera.orthographicCamera.position, {
+                })
                     // Relative to last ortho. camera position
-                    // x-positive=model moves left
-                    // y-positive=model moves up
-                    x: () => {
-                        // fix: x position when screen > 1024 in width
-                        return this.sizes.width < 1024 ? 0.8 : -2.4;
-                    },
-                    y: () => {
-                        // fix: y position when screen > 1024 in width
-                        return this.sizes.width < 1024 ? 0.8 : 3.4;
-                    }
-                });
+                    .to(this.camera.orthographicCamera.position, {
+                        x: -2.4,
+                        y: 3.4
+                    });
             },
 
             // Mobile. Should be the same max-width as media query in style.css
-            '(max-width: 968px)': () => {},
+            '(max-width: 968px)': () => {
+                // Landing page
+                this.camera.orthographicCamera.position.set(-0.04, 4, 6.5);
+                this.room.scale.set(0.45, 0.45, 0.45);
+
+                // First section
+                this.firstMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.first-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                })
+                    // Don't scale room; distorted shadows from wrong light position
+                    .to(
+                        this.zoom,
+                        {
+                            // Zoom for perspective camera, default 1
+                            zoomValue: 1.8,
+                            onUpdate: () => {
+                                // note: why is the ortho. zoom same as perspective
+                                this.camera.orthographicCamera.zoom =
+                                    this.zoom.zoomValue;
+                                this.camera.orthographicCamera.updateProjectionMatrix();
+                            }
+                        },
+                        'same'
+                    );
+
+                // Second section
+                this.secondMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.second-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                })
+                    // Relative to last ortho. camera position
+                    .to(
+                        this.camera.orthographicCamera.position,
+                        {
+                            x: 0.1,
+                            y: 3.85
+                        },
+                        'same'
+                    )
+                    // Don't scale room; distorted shadows from wrong light position
+                    .to(
+                        this.zoom,
+                        {
+                            // Zoom for perspective camera, +0.5
+                            zoomValue: 2.5,
+                            onUpdate: () => {
+                                // note: why is the ortho. zoom same as perspective
+                                this.camera.orthographicCamera.zoom =
+                                    this.zoom.zoomValue;
+                                this.camera.orthographicCamera.updateProjectionMatrix();
+                            }
+                        },
+                        'same'
+                    );
+
+                // Third section
+                this.thirdMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.third-scrollTrigger',
+                        markers: true,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true
+                    }
+                })
+                    // Relative to last ortho. camera position
+                    .to(
+                        this.camera.orthographicCamera.position,
+                        {
+                            x: -1,
+                            y: 3.5
+                        },
+                        'same'
+                    );
+            },
             // all
             all: () => {}
         });
