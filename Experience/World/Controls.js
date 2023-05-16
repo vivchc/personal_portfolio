@@ -162,6 +162,14 @@ export default class Controls {
                         invalidateOnRefresh: true
                     }
                 })
+                    // Relative to last ortho. camera position
+                    .to(
+                        this.camera.orthographicCamera.position,
+                        {
+                            y: 3.8
+                        },
+                        'same'
+                    )
                     // Don't scale room; distorted shadows from wrong light position
                     .to(
                         this.zoom,
@@ -226,7 +234,7 @@ export default class Controls {
                     // Relative to last ortho. camera position
                     .to(this.camera.orthographicCamera.position, {
                         x: -1,
-                        y: 3.5
+                        y: 3.3
                     });
             },
             // all
