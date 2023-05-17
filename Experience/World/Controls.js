@@ -27,14 +27,13 @@ export default class Controls {
     // Triggers animation
     setScrollTrigger() {
         ScrollTrigger.matchMedia({
-            // Desktop
+            //===DESKTOP===
             '(min-width: 969px)': () => {
-                // note: do we need to set ortho. camera and room scale here?
-                // Landing page
+                //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
                 this.room.scale.set(0.8, 0.8, 0.8);
 
-                // First section
+                //---FIRST SECTION---
                 // Camera positions found via Firefox's res. design mode 1920x1080
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
@@ -93,7 +92,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Second section
+                //---SECOND SECTION---
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
@@ -127,7 +126,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Third section
+                //---THIRD SECTION---
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
@@ -145,13 +144,14 @@ export default class Controls {
                     });
             },
 
-            // Mobile. Should be the same max-width as media query in style.css
+            //===MOBILE===
+            // Same max-width as media query in style.css
             '(max-width: 968px)': () => {
-                // Landing page
+                //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.04, 4, 6.5);
                 this.room.scale.set(0.45, 0.45, 0.45);
 
-                // First section
+                //---FIRST SECTION (MOBILE)----
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
@@ -185,7 +185,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Second section
+                ///---SECOND SECTION (MOBILE)---
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
@@ -220,7 +220,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Third section
+                //---THIRD SECTION (MOBILE)---
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
@@ -237,8 +237,98 @@ export default class Controls {
                         y: 3.3
                     });
             },
-            // all
-            all: () => {}
+
+            //===ALL SCREEN SIZES===
+            all: () => {
+                // Animate mailbox platform
+                this.mailboxTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.third-scrollTrigger',
+                        markers: true,
+                        start: 'center center'
+                    }
+                });
+
+                // Loop through children; this.room.children may render in arbitrary order
+                this.room.children.forEach((roomChild) => {
+                    if (roomChild.name === 'mailbox') {
+                        roomChild.children.forEach((child) => {
+                            // Animate mailbox floor extending out
+                            if (child.name.includes('floor')) {
+                                this.one = GSAP.to(child.position, {
+                                    // Final position relative to starting position in model
+                                    x: 0,
+                                    z: 0, // equi. to y in Blender
+                                    // note: adjust duration
+                                    duration: 0.3 // lower = faster
+                                });
+                            }
+
+                            // Animate steps (3 total)
+                            if (child.name.includes('step_01')) {
+                                this.two = GSAP.to(child.scale, {
+                                    // Final size relative to WITHIN the scene
+                                    x: 5.1,
+                                    y: 5.1,
+                                    z: 5.1,
+                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
+                                    duration: 0.5 // lower = faster
+                                });
+                            }
+                            if (child.name.includes('step_02')) {
+                                this.three = GSAP.to(child.scale, {
+                                    // Final size relative to WITHIN the scene
+                                    x: 5.1,
+                                    y: 5.1,
+                                    z: 5.1,
+                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
+                                    duration: 0.5 // lower = faster
+                                });
+                            }
+                            if (child.name.includes('step_03')) {
+                                this.four = GSAP.to(child.scale, {
+                                    // Final size relative to WITHIN the scene
+                                    x: 5.1,
+                                    y: 5.1,
+                                    z: 5.1,
+                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
+                                    duration: 0.5 // lower = faster
+                                });
+                            }
+
+                            // Animate mailbox itself
+                            if (child.name.includes('stand')) {
+                                this.five = GSAP.to(child.scale, {
+                                    // Final size relative to WITHIN the scene
+                                    x: 5.1,
+                                    y: 5.1,
+                                    z: 5.1,
+                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
+                                    duration: 0.5 // lower = faster
+                                });
+                            }
+                            if (child.name.includes('body')) {
+                                this.six = GSAP.to(child.scale, {
+                                    // Final size relative to WITHIN the scene
+                                    x: 5.1,
+                                    y: 5.1,
+                                    z: 5.1,
+                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
+                                    duration: 0.5 // lower = faster
+                                });
+                            }
+                        });
+
+                        // Animate children in order
+                        this.mailboxTimeline.add(this.one); // floor
+                        this.mailboxTimeline.add(this.two, '-=0.2'); // step1
+                        this.mailboxTimeline.add(this.three, '-=0.2'); // step2
+                        this.mailboxTimeline.add(this.four, '-=0.2'); // step3
+                        this.mailboxTimeline.add(this.five, '-=0.2'); // mailbox stand
+                        this.mailboxTimeline.add(this.six, '-=0.2'); // mailbox body
+                    }
+                });
+            }
         });
     }
 
