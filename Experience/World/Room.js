@@ -69,9 +69,11 @@ export default class Room {
                 roomChild.children.forEach((child) => {
                     if (child.name.includes('laptop')) {
                         child.children.forEach((e) => {
-                            e.material = new THREE.MeshBasicMaterial({
-                                map: this.resources.items.laptop_screen
-                            });
+                            if (e.material.name === 'screen') {
+                                e.material = new THREE.MeshBasicMaterial({
+                                    map: this.resources.items.laptop_screen
+                                });
+                            }
                         });
                     }
                 });
