@@ -27,14 +27,13 @@ export default class Controls {
     // Triggers animation
     setScrollTrigger() {
         ScrollTrigger.matchMedia({
-            // Desktop
+            //===DESKTOP===
             '(min-width: 969px)': () => {
-                // note: do we need to set ortho. camera and room scale here?
-                // Landing page
+                //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
                 this.room.scale.set(0.8, 0.8, 0.8);
 
-                // First section
+                //---FIRST SECTION---
                 // Camera positions found via Firefox's res. design mode 1920x1080
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
@@ -93,7 +92,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Second section
+                //---SECOND SECTION---
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
@@ -127,7 +126,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Third section
+                //---THIRD SECTION---
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
@@ -145,13 +144,14 @@ export default class Controls {
                     });
             },
 
-            // Mobile. Should be the same max-width as media query in style.css
+            //===MOBILE===
+            // Same max-width as media query in style.css
             '(max-width: 968px)': () => {
-                // Landing page
+                //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.04, 4, 6.5);
                 this.room.scale.set(0.45, 0.45, 0.45);
 
-                // First section
+                //---FIRST SECTION (MOBILE)----
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
@@ -185,7 +185,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Second section
+                ///---SECOND SECTION (MOBILE)---
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
@@ -220,7 +220,7 @@ export default class Controls {
                         'same'
                     );
 
-                // Third section
+                //---THIRD SECTION (MOBILE)---
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
@@ -237,7 +237,8 @@ export default class Controls {
                         y: 3.3
                     });
             },
-            // all
+
+            //===ALL SCREEN SIZES===
             all: () => {
                 // Animate mailbox platform
                 this.mailboxTimeline = new GSAP.timeline({
