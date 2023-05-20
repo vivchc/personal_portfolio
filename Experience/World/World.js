@@ -21,8 +21,9 @@ export default class World extends EventEmitter {
         // Creates our room model when resources all loaded
         this.resources.on('ready', () => {
             this.environment = new Environment();
-            this.room = new Room();
+            // Floor must come before Room; Controls init. circles from Floor
             this.floor = new Floor();
+            this.room = new Room();
             this.controls = new Controls();
             this.emit('world loaded');
         });

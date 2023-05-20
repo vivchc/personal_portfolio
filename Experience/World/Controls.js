@@ -16,8 +16,9 @@ export default class Controls {
         this.room = this.experience.world.room.actualRoom;
         this.zoom = { zoomValue: this.camera.orthographicCamera.zoom };
 
-        console.log(this.sizes.width);
-        console.log(this.sizes.aspect);
+        this.circle1 = this.experience.world.floor.circle1;
+        this.circle2 = this.experience.world.floor.circle2;
+        this.circle3 = this.experience.world.floor.circle3;
 
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);
@@ -289,8 +290,9 @@ export default class Controls {
                     });
             },
 
-            //===ALL SCREEN SIZES===
+            // All screen sizes
             all: () => {
+                //===PROGRESS BARS===
                 this.sections = document.querySelectorAll('.section');
                 this.sections.forEach((section) => {
                     this.progressWrapper =
@@ -362,7 +364,57 @@ export default class Controls {
                     });
                 });
 
-                // Animate mailbox platform
+                //===CIRCLE BACKGROUND ANIMATIONS===
+                //---FIRST SECTION---
+                this.firstMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.first-scrollTrigger',
+                        // note: comment start/end markers in Controls.js, then comment all markers when done
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true,
+                        markers: true
+                    }
+                }).to(this.circle1.scale, {
+                    x: 3,
+                    y: 3,
+                    z: 3
+                });
+
+                //---SECOND SECTION---
+                this.secondMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.second-scrollTrigger',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true,
+                        markers: true
+                    }
+                }).to(this.circle2.scale, {
+                    x: 3,
+                    y: 3,
+                    z: 3
+                });
+
+                //---THIRD SECTION---
+                this.thirdMoveTimeline = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: '.third-scrollTrigger',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1, // animates with scroll
+                        invalidateOnRefresh: true,
+                        markers: true
+                    }
+                }).to(this.circle3.scale, {
+                    x: 3,
+                    y: 3,
+                    z: 3
+                });
+
+                //===ANIMATE MAILBOX PLATFORM===
                 this.mailboxTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
