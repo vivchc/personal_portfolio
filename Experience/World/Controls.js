@@ -38,6 +38,7 @@ export default class Controls {
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
+                        // note: comment start/end markers in Controls.js, then comment all markers when done
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
@@ -240,16 +241,18 @@ export default class Controls {
 
             //===ALL SCREEN SIZES===
             all: () => {
-                // Round out section edges
                 this.sections = document.querySelectorAll('.section');
                 this.sections.forEach((section) => {
+                    this.progressWrapper =
+                        section.querySelector('.progress-wrapper');
+                    this.progressBar = section.querySelector('.progress-bar');
+
+                    // Tween to animate section edges; transition from large to small border radius
                     if (section.classList.contains('right')) {
                         GSAP.to(section, {
-                            // Rounds out top left corner
-                            borderTopLeftRadius: 500,
+                            borderTopLeftRadius: 10,
                             scrollTrigger: {
-                                trigger: 'section',
-                                // note: comment start/end markers in Controls.js, then comment all markers when done
+                                trigger: section,
                                 // When top of the trigger hits the bottom of viewport
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
@@ -259,10 +262,9 @@ export default class Controls {
                             }
                         });
                         GSAP.to(section, {
-                            // Rounds out bottom left corner
-                            borderBottomLeftRadius: 500,
+                            borderBottomLeftRadius: 700,
                             scrollTrigger: {
-                                trigger: 'section',
+                                trigger: section,
                                 start: 'bottom bottom',
                                 end: 'bottom top',
                                 scrub: 0.6,
@@ -271,10 +273,9 @@ export default class Controls {
                         });
                     } else if (section.classList.contains('left')) {
                         GSAP.to(section, {
-                            // Rounds out top right corner
-                            borderTopRightRadius: 500,
+                            borderTopRightRadius: 10,
                             scrollTrigger: {
-                                trigger: 'section',
+                                trigger: section,
                                 // When top of the trigger hits the bottom of viewport
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
@@ -284,10 +285,9 @@ export default class Controls {
                             }
                         });
                         GSAP.to(section, {
-                            // Rounds out bottom right corner
-                            borderBottomRightRadius: 500,
+                            borderBottomRightRadius: 700,
                             scrollTrigger: {
-                                trigger: 'section',
+                                trigger: section,
                                 // When bottom of trigger hits bottom of viewport
                                 start: 'bottom bottom',
                                 // When bottom of trigger gits top of viewport
@@ -297,6 +297,19 @@ export default class Controls {
                             }
                         });
                     }
+
+                    // Animate progress bar moving along with viewport
+                    GSAP.from(this.progressBar, {
+                        scaleY: 0,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top top',
+                            end: 'bottom bottom',
+                            scrub: 0.4,
+                            pin: this.progressWrapper,
+                            pinSpacing: false
+                        }
+                    });
                 });
 
                 // Animate mailbox platform
