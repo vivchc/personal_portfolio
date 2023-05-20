@@ -38,11 +38,11 @@ export default class Controls {
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -60,7 +60,7 @@ export default class Controls {
                                     // For 16:10 aspect ratios
                                     return -2.2;
                                 }
-                                return -2.4; // For 16:9 aspect ratios, 1.7:1
+                                return -2.2; // For 16:9 aspect ratios, 1.7:1
                             },
                             y: 4.5
                         },
@@ -96,11 +96,11 @@ export default class Controls {
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -130,11 +130,11 @@ export default class Controls {
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -155,11 +155,11 @@ export default class Controls {
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -189,11 +189,11 @@ export default class Controls {
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.second-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -224,11 +224,11 @@ export default class Controls {
                 this.thirdMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
-                        markers: true,
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -240,12 +240,71 @@ export default class Controls {
 
             //===ALL SCREEN SIZES===
             all: () => {
+                // Round out section edges
+                this.sections = document.querySelectorAll('.section');
+                this.sections.forEach((section) => {
+                    if (section.classList.contains('right')) {
+                        GSAP.to(section, {
+                            // Rounds out top left corner
+                            borderTopLeftRadius: 500,
+                            scrollTrigger: {
+                                trigger: 'section',
+                                // note: comment start/end markers in Controls.js, then comment all markers when done
+                                // When top of the trigger hits the bottom of viewport
+                                start: 'top bottom',
+                                // When top of section hits top of viewport
+                                end: 'top top',
+                                scrub: 0.6,
+                                markers: true
+                            }
+                        });
+                        GSAP.to(section, {
+                            // Rounds out bottom left corner
+                            borderBottomLeftRadius: 500,
+                            scrollTrigger: {
+                                trigger: 'section',
+                                start: 'bottom bottom',
+                                end: 'bottom top',
+                                scrub: 0.6,
+                                markers: true
+                            }
+                        });
+                    } else if (section.classList.contains('left')) {
+                        GSAP.to(section, {
+                            // Rounds out top right corner
+                            borderTopRightRadius: 500,
+                            scrollTrigger: {
+                                trigger: 'section',
+                                // When top of the trigger hits the bottom of viewport
+                                start: 'top bottom',
+                                // When top of section hits top of viewport
+                                end: 'top top',
+                                scrub: 0.6,
+                                markers: true
+                            }
+                        });
+                        GSAP.to(section, {
+                            // Rounds out bottom right corner
+                            borderBottomRightRadius: 500,
+                            scrollTrigger: {
+                                trigger: 'section',
+                                // When bottom of trigger hits bottom of viewport
+                                start: 'bottom bottom',
+                                // When bottom of trigger gits top of viewport
+                                end: 'bottom top',
+                                scrub: 0.6,
+                                markers: true
+                            }
+                        });
+                    }
+                });
+
                 // Animate mailbox platform
                 this.mailboxTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
-                        markers: true,
-                        start: 'center center'
+                        start: 'center center',
+                        markers: true
                     }
                 });
 

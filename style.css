@@ -64,6 +64,7 @@ SECTIONS
     padding: 1000px 4%;
     margin: 0;
     background-color: var(--primary-color);
+    overflow: hidden;
 }
 
 .left {
