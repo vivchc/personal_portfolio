@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import Experience from '../Experience';
 import GSAP from 'gsap';
+import ASScroll from '@ashthornton/asscroll';
 import { ScrollTrigger } from 'gsap/ScrollTrigger.js';
 
 export default class Controls {
@@ -21,8 +22,57 @@ export default class Controls {
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);
 
+        this.setSmoothScroll();
         this.setScrollTrigger();
     }
+
+    // https://github.com/ashthornton/asscroll
+    setupASScroll() {
+        const asscroll = new ASScroll({
+            ease: 0.3, // lerp
+            disableRaf: true
+        });
+
+        GSAP.ticker.add(asscroll.update);
+
+        ScrollTrigger.defaults({
+            scroller: asscroll.containerElement
+        });
+
+        ScrollTrigger.scrollerProxy(asscroll.containerElement, {
+            scrollTop(value) {
+                if (arguments.length) {
+                    asscroll.currentPos = value;
+                    return;
+                }
+                return asscroll.currentPos;
+            },
+            getBoundingClientRect() {
+                return {
+                    top: 0,
+                    left: 0,
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+            },
+            fixedMarkers: true
+        });
+
+        asscroll.on('update', ScrollTrigger.update);
+        ScrollTrigger.addEventListener('refresh', asscroll.resize);
+
+        requestAnimationFrame(() => {
+            asscroll.enable({
+                newScrollElements: document.querySelectorAll(
+                    '.GSAP-marker-start, .GSAP-marker-end, [asscroll]'
+                )
+            });
+        });
+        return asscroll;
+    }
+
+    // Use ASScroll for smooth scrolling
+    setSmoothScroll() {}
 
     // Triggers animation
     setScrollTrigger() {
@@ -257,7 +307,7 @@ export default class Controls {
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
                                 end: 'top top',
-                                scrub: 0.6,
+                                scrub: 0.8,
                                 markers: true
                             }
                         });
@@ -267,7 +317,7 @@ export default class Controls {
                                 trigger: section,
                                 start: 'bottom bottom',
                                 end: 'bottom top',
-                                scrub: 0.6,
+                                scrub: 0.8,
                                 markers: true
                             }
                         });
@@ -280,7 +330,7 @@ export default class Controls {
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
                                 end: 'top top',
-                                scrub: 0.6,
+                                scrub: 0.8,
                                 markers: true
                             }
                         });
@@ -292,7 +342,7 @@ export default class Controls {
                                 start: 'bottom bottom',
                                 // When bottom of trigger gits top of viewport
                                 end: 'bottom top',
-                                scrub: 0.6,
+                                scrub: 0.8,
                                 markers: true
                             }
                         });
@@ -316,8 +366,8 @@ export default class Controls {
                 this.mailboxTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.third-scrollTrigger',
-                        start: 'center center',
-                        markers: true
+                        start: 'center center'
+                        // markers: true
                     }
                 });
 
