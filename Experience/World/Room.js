@@ -12,6 +12,8 @@ export default class Room {
         // Grab loaded assets from Resources
         this.room = this.resources.items.room;
         this.actualRoom = this.room.scene;
+        // Store all children in Room for later reference
+        this.roomChildren = {};
 
         // lerp = linear interpolation, makes camera movement smoother
         this.lerp = {
@@ -29,14 +31,13 @@ export default class Room {
     setModel() {
         // Set shadows for each child of the room model
         this.actualRoom.children.forEach((roomChild) => {
-            // Child is empty obj. holding groups and meshes
             if (roomChild.type === 'Object3D') {
-                // Loop through children, see if group or mesh
+                // Child is empty obj. holding groups and meshes; loop through children
                 roomChild.children.forEach((e) => {
                     this.castShadow(e);
                 });
             } else {
-                // Child is group or mesh
+                // Child is already group or mesh
                 this.castShadow(roomChild);
             }
 
@@ -92,6 +93,23 @@ export default class Room {
                     }
                 });
             }
+
+            // Hide entire room model during preloader
+            // note: final result should hide all room objects
+            roomChild.scale.set(0, 0, 0);
+
+            // Load cup for preloader
+            if (roomChild.name === 'cup_for_intro') {
+                // Initial size
+                roomChild.scale.set(3, 3, 3);
+                // Lower y-position so cup is near its shadow
+                roomChild.position.set(0, -0.27, 0);
+                // Rotate cup so handle is left
+                roomChild.rotation.z = -Math.PI / 2;
+            }
+
+            // Store each child from Room in roomChildren
+            this.roomChildren[roomChild.name] = roomChild;
         });
 
         // Scale room model to 2 square units on GridHelper

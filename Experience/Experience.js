@@ -28,7 +28,7 @@ export default class Experience {
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.resources = new Resources(assets);
-        this.world = new World(); // order matters, must be called after everything
+        this.world = new World(); // order matters; only call after everything loads for World
         this.preloader = new Preloader();
 
         // Updates other classes' update functions when SIZE updates

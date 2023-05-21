@@ -13,6 +13,10 @@ body {
     color: var(--text-black);
 }
 
+body {
+    overflow: hidden; /* hide default scrollbar */
+}
+
 :root {
     /* Use a color close to but not exactly black */
     --text-black: #30323d;

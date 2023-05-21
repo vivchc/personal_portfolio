@@ -15,6 +15,7 @@ export default class Sizes extends EventEmitter {
 
         // frustrum = what is inside camera's field of vision
         this.frustrum = 5;
+        this.device = this.width < 968 ? 'mobile' : 'desktop';
 
         // Update width/height if window resizes
         window.addEventListener('resize', () => {
@@ -23,6 +24,15 @@ export default class Sizes extends EventEmitter {
             this.aspect = this.width / this.height;
             this.pixelRatio = Math.min(window.devicePixelRatio, 2);
             this.emit('resize');
+
+            // Track if device changed mobile <-> desktop
+            if (this.width < 968 && this.device !== 'mobile') {
+                this.device = 'mobile';
+                this.emit('switchdevice', this.device);
+            } else if (this.width >= 968 && this.device !== 'desktop') {
+                this.device = 'desktop';
+                this.emit('switchdevice', this.device);
+            }
         });
     }
 }
