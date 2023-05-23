@@ -43,7 +43,7 @@ export default class Camera {
         this.orthographicCamera.position.y = 4.5;
         this.orthographicCamera.position.z = 6.5;
         // Initalized for preloader, change to -Math.PI / 7 for rest of site
-        this.orthographicCamera.rotation.x = -Math.PI / 5;
+        this.orthographicCamera.rotation.x = -Math.PI / 5.5;
 
         this.scene.add(this.orthographicCamera);
 

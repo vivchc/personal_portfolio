@@ -37,7 +37,6 @@ export default class Preloader extends EventEmitter {
 
             // Different preloader animations for desktop/mobile
             if (this.device === 'desktop') {
-                this.roomChildren.cup_for_intro.position.set(0, -0.27, 0);
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
                         x: 5,
@@ -48,7 +47,7 @@ export default class Preloader extends EventEmitter {
                     })
                     // Move preloader cup to the left
                     .to(this.room.position, {
-                        x: -2.5,
+                        // x: -2.5,
                         ease: 'power1.out',
                         duration: 0.7,
                         onComplete: resolve // signals end of animation
@@ -82,11 +81,11 @@ export default class Preloader extends EventEmitter {
 
             // Different preloader animations for desktop/mobile
             if (this.device === 'desktop') {
-                this.roomChildren.cup_for_intro.position.set(0, -0.27, 0);
                 this.secondTimeline
-                    // Move preloader cup to the left
-                    .to(this.room.position, {
+                    // Center preloader cup
+                    .to(this.roomChildren.cup_for_intro.position, {
                         x: 0,
+                        // z: -0.27,
                         z: 0,
                         y: 0,
                         ease: 'power1.out'
@@ -95,7 +94,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         this.roomChildren.cup_for_intro.rotation,
                         {
-                            z: 2 * Math.PI + Math.PI
+                            z: 4 * Math.PI
                         },
                         'same'
                     )
@@ -103,9 +102,10 @@ export default class Preloader extends EventEmitter {
                     .to(
                         this.roomChildren.cup_for_intro.scale,
                         {
-                            x: 25,
-                            y: 25,
-                            z: 25
+                            x: 44,
+                            y: 44,
+                            z: 27,
+                            duration: 1
                         },
                         'same'
                     )
@@ -117,12 +117,43 @@ export default class Preloader extends EventEmitter {
                         },
                         'same'
                     );
+
                 //===ANIMATE ROOM OBJECTS===
-                this.secondTimeline.to(this.roomChildren.room_window.scale, {
-                    x: 1,
-                    y: 1,
-                    z: 1
-                });
+                this.secondTimeline
+                    .to(
+                        this.roomChildren.cup_for_intro.scale,
+                        {
+                            x: 0,
+                            y: 0,
+                            z: 0,
+                            duration: 1
+                        },
+                        'same'
+                    )
+                    .to(
+                        this.roomChildren.cup_for_intro.position,
+                        {
+                            z: -2
+                        },
+                        'same'
+                    )
+                    .to(
+                        this.roomChildren.room_window.scale,
+                        {
+                            x: 1,
+                            y: 1,
+                            z: 1,
+                            duration: 1
+                        },
+                        'same'
+                    )
+                    .to(
+                        this.roomChildren.room_window.rotation,
+                        {
+                            y: 4 * Math.PI
+                        },
+                        'same'
+                    );
             } else {
                 // Device is mobile
                 this.roomChildren.cup_for_intro.position.set(0, -0.55, 0);
@@ -132,7 +163,7 @@ export default class Preloader extends EventEmitter {
                         x: 0,
                         z: 0,
                         y: 0,
-                        ease: 'power1.out',
+                        ease: 'back.out(2.5)',
                         duration: 0.7
                     });
             }

@@ -102,10 +102,11 @@ export default class Room {
             if (roomChild.name === 'cup_for_intro') {
                 // Initial size
                 roomChild.scale.set(3, 3, 3);
-                // Lower y-position so cup is near its shadow
-                roomChild.position.set(0, -0.27, 0);
-                // Rotate cup so handle is left
+                // Lower y-position so cup is near its shadow, x=
+                roomChild.position.set(-0.0026, -0.27, 0.120295);
+                // Rotate cup so handle is left and right-side up
                 roomChild.rotation.z = -Math.PI / 2;
+                roomChild.rotation.x = -1.5 * Math.PI;
             }
 
             // Store each child from Room in roomChildren
