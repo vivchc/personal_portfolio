@@ -47,7 +47,7 @@ export default class Preloader extends EventEmitter {
                     })
                     // Move preloader cup to the left
                     .to(this.room.position, {
-                        // x: -2.5,
+                        x: -2.5,
                         ease: 'power1.out',
                         duration: 0.7,
                         onComplete: resolve // signals end of animation
@@ -82,44 +82,74 @@ export default class Preloader extends EventEmitter {
             // Different preloader animations for desktop/mobile
             if (this.device === 'desktop') {
                 this.secondTimeline
-                    // Center preloader cup
-                    .to(this.roomChildren.cup_for_intro.position, {
-                        x: 0,
-                        // z: -0.27,
-                        z: 0,
-                        y: 0,
-                        ease: 'power1.out'
-                    })
-                    // Spin preloader, handle end up in back
-                    .to(
-                        this.roomChildren.cup_for_intro.rotation,
-                        {
-                            z: 4 * Math.PI
-                        },
-                        'same'
-                    )
-                    // Expand preloader to match room size
-                    .to(
-                        this.roomChildren.cup_for_intro.scale,
-                        {
-                            x: 44,
-                            y: 44,
-                            z: 27,
-                            duration: 1
-                        },
-                        'same'
-                    )
+                    //===REPLACE PRELOADER WITH ROOM MODEL===
+
+                    //---Spin, scale, and center preloader cup---
                     // Reset orthographic camera rotation
                     .to(
                         this.camera.orthographicCamera.rotation,
                         {
                             x: -Math.PI / 7
                         },
-                        'same'
-                    );
+                        'spin_cup_room'
+                    )
+                    // Center preloader cup
+                    .to(
+                        this.roomChildren.cup_for_intro.position,
+                        {
+                            x: 3,
+                            y: 0,
+                            z: 0,
+                            ease: 'power1.out'
+                        },
+                        'spin_cup_room'
+                    )
+                    // Spin preloader cup while centering
+                    .to(
+                        this.roomChildren.cup_for_intro.rotation,
+                        {
+                            z: Math.PI,
+                            ease: 'Cubic.InOut'
+                        },
+                        'spin_cup_room'
+                    )
+                    // Center room model (appears from preloader cup later)
+                    .to(
+                        this.roomChildren.room_window.position,
+                        {
+                            x: 3 + 0.0026
+                        },
+                        'spin_cup_room'
+                    )
 
-                //===ANIMATE ROOM OBJECTS===
-                this.secondTimeline
+                    // Scale preloader cup to room size
+                    .to(this.roomChildren.cup_for_intro.scale, {
+                        x: 44,
+                        y: 44,
+                        z: 27
+                    })
+
+                    //---Preloader cup disappears while room appears---
+                    // Unhide room model walls & floor
+                    .to(
+                        this.roomChildren.room_window.scale,
+                        {
+                            x: 1,
+                            y: 1,
+                            z: 1,
+                            duration: 0.7
+                        },
+                        'scale_together'
+                    )
+                    // Spin room model walls & floor while appearing
+                    .to(
+                        this.roomChildren.room_window.rotation,
+                        {
+                            y: 4 * Math.PI // note: do we have to change rotation; not centered?
+                        },
+                        'scale_together'
+                    )
+                    // Hide preloader cup
                     .to(
                         this.roomChildren.cup_for_intro.scale,
                         {
@@ -128,32 +158,20 @@ export default class Preloader extends EventEmitter {
                             z: 0,
                             duration: 1
                         },
-                        'same'
+                        'scale_together'
                     )
+                    // Spin preloader cup while disappearing
                     .to(
-                        this.roomChildren.cup_for_intro.position,
+                        this.roomChildren.cup_for_intro.rotation,
                         {
-                            z: -2
+                            z: 3 * Math.PI,
+                            ease: 'quartic.out'
                         },
-                        'same'
-                    )
-                    .to(
-                        this.roomChildren.room_window.scale,
-                        {
-                            x: 1,
-                            y: 1,
-                            z: 1,
-                            duration: 1
-                        },
-                        'same'
-                    )
-                    .to(
-                        this.roomChildren.room_window.rotation,
-                        {
-                            y: 4 * Math.PI
-                        },
-                        'same'
+                        'scale_together'
                     );
+
+                //===UNHIDE ROOM OBJECTS===
+                
             } else {
                 // Device is mobile
                 this.roomChildren.cup_for_intro.position.set(0, -0.55, 0);

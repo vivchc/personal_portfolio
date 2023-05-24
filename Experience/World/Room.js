@@ -164,7 +164,7 @@ export default class Room {
             this.lerp.target,
             this.lerp.ease
         );
-        // Rotate room based on cursor location
+        // Rotate room vertically based on cursor location
         this.actualRoom.rotation.y = this.lerp.current;
         // Set animation speed (larger value = faster)
         this.mixer.update(this.time.delta * 0.0008);
