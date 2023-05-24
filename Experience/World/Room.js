@@ -109,8 +109,20 @@ export default class Room {
                 roomChild.rotation.x = -1.5 * Math.PI;
             }
 
-            // Store each child from Room in roomChildren
-            this.roomChildren[roomChild.name] = roomChild;
+            // Store room objects in roomChildren
+            if (
+                roomChild.name != 'cup_for_intro' &&
+                roomChild.name != 'room_window' &&
+                roomChild.children.length > 0
+            ) {
+                // roomChild has children; put each into roomChildren
+                roomChild.children.forEach((child) => {
+                    this.roomChildren[child.name] = child;
+                });
+            } else {
+                // roomChild has NO children; put directly into roomChildren
+                this.roomChildren[roomChild.name] = roomChild;
+            }
         });
 
         // Scale room model to 2 square units on GridHelper

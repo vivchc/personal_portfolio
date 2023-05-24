@@ -46,7 +46,7 @@ export default class Preloader extends EventEmitter {
                         duration: 0.7
                     })
                     // Move preloader cup to the left
-                    .to(this.room.position, {
+                    .to(this.roomChildren.cup_for_intro.position, {
                         x: -2.5,
                         ease: 'power1.out',
                         duration: 0.7,
@@ -97,7 +97,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         this.roomChildren.cup_for_intro.position,
                         {
-                            x: 3,
+                            x: 0,
                             y: 0,
                             z: 0,
                             ease: 'power1.out'
@@ -110,14 +110,6 @@ export default class Preloader extends EventEmitter {
                         {
                             z: Math.PI,
                             ease: 'Cubic.InOut'
-                        },
-                        'spin_cup_room'
-                    )
-                    // Center room model (appears from preloader cup later)
-                    .to(
-                        this.roomChildren.room_window.position,
-                        {
-                            x: 3 + 0.0026
                         },
                         'spin_cup_room'
                     )
@@ -168,10 +160,16 @@ export default class Preloader extends EventEmitter {
                             ease: 'quartic.out'
                         },
                         'scale_together'
-                    );
+                    )
 
-                //===UNHIDE ROOM OBJECTS===
-                
+                    //===UNHIDE ROOM OBJECTS===
+                    // Unhide wall shelf
+                    .to(this.roomChildren.wall_shelf.scale, {
+                        x: 0.165,
+                        y: 0.165,
+                        z: 0.165,
+                        ease: 'back.out(2.2)'
+                    });
             } else {
                 // Device is mobile
                 this.roomChildren.cup_for_intro.position.set(0, -0.55, 0);
