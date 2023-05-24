@@ -160,16 +160,22 @@ export default class Preloader extends EventEmitter {
                             ease: 'quartic.out'
                         },
                         'scale_together'
-                    )
+                    );
 
-                    //===UNHIDE ROOM OBJECTS===
-                    // Unhide wall shelf
-                    .to(this.roomChildren.wall_shelf.scale, {
-                        x: 0.165,
-                        y: 0.165,
-                        z: 0.165,
-                        ease: 'back.out(2.2)'
-                    });
+                //===UNHIDE ROOM OBJECTS===
+                // Unhide all objects ending in 01
+                for (const obj in this.roomChildren) {
+                    // obj only returns name of child in roomChildren
+                    if (obj.match('01$')) {
+                        // debug: no error but not unhiding; not accessing obj
+                        this.secondTimeline.to(this.roomChildren[obj].scale, {
+                            x: 0.165,
+                            y: 0.165,
+                            z: 0.165,
+                            ease: 'back.out(2.2)'
+                        });
+                    }
+                }
             } else {
                 // Device is mobile
                 this.roomChildren.cup_for_intro.position.set(0, -0.55, 0);
