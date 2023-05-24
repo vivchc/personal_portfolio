@@ -163,8 +163,9 @@ export default class Preloader extends EventEmitter {
                     )
 
                     //===UNHIDE ROOM OBJECTS===
-                    // Unhide wall shelf
-                    .to(this.roomChildren.wall_shelf.scale, {
+                    //---Unhide desk and desk stuff---
+                    // Unhide desk legs
+                    .to(this.roomChildren.desk_feet_01.scale, {
                         x: 0.165,
                         y: 0.165,
                         z: 0.165,
