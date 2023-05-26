@@ -226,7 +226,7 @@ export default class Preloader extends EventEmitter {
                             ease: 'back.out(2.2)',
                             duration: 0.3
                         },
-                        '<25%'
+                        '<75%'
                     );
                 }
                 shorten = this.roomChildren.fish; // shorten declaration
@@ -284,7 +284,7 @@ export default class Preloader extends EventEmitter {
                             ease: 'back.out(2.2)',
                             duration: 0.3
                         },
-                        '<25%'
+                        '<75%'
                     );
                 }
 
