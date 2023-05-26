@@ -346,6 +346,7 @@ export default class Preloader extends EventEmitter {
                         '<25%'
                     );
                 }
+
                 // Unhide group chair
                 shorten = this.roomChildren.chair.children; // shorten declaration
                 // Unhide chair legs
@@ -360,7 +361,7 @@ export default class Preloader extends EventEmitter {
                     },
                     '<25%'
                 );
-                
+
                 // Unhide chair seat and spin
                 this.secondTimeline
                     .to(
@@ -369,7 +370,7 @@ export default class Preloader extends EventEmitter {
                             x: this.roomChildrenScale[shorten[1].name][0],
                             y: this.roomChildrenScale[shorten[1].name][1],
                             z: this.roomChildrenScale[shorten[1].name][2],
-                            ease: 'back.out(2.2)',
+                            ease: 'power2.out',
                             duration: 0.3
                         },
                         'chair_seat'
