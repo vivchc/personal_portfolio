@@ -258,19 +258,38 @@ export default class Preloader extends EventEmitter {
 
                 // Unhide group chair
                 shorten = this.roomChildren.chair.children; // shorten declaration
-                for (const ind in shorten) {
-                    this.secondTimeline.to(
-                        shorten[ind].scale,
+                // Unhide chair legs
+                this.secondTimeline.to(
+                    shorten[0].scale,
+                    {
+                        x: this.roomChildrenScale[shorten[0].name][0],
+                        y: this.roomChildrenScale[shorten[0].name][1],
+                        z: this.roomChildrenScale[shorten[0].name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.3
+                    },
+                    '<25%'
+                );
+                // Unhide chair seat and spin
+                this.secondTimeline
+                    .to(
+                        shorten[1].scale,
                         {
-                            x: this.roomChildrenScale[shorten[ind].name][0],
-                            y: this.roomChildrenScale[shorten[ind].name][1],
-                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            x: this.roomChildrenScale[shorten[1].name][0],
+                            y: this.roomChildrenScale[shorten[1].name][1],
+                            z: this.roomChildrenScale[shorten[1].name][2],
                             ease: 'back.out(2.2)',
                             duration: 0.3
                         },
+                        'chair_seat'
+                    )
+                    .to(
+                        shorten[1].rotation,
+                        {
+                            z: 2 * Math.PI
+                        },
                         '<25%'
                     );
-                }
 
                 // Unhide group drawer
                 shorten = this.roomChildren.drawer.children; // shorten declaration
@@ -281,7 +300,6 @@ export default class Preloader extends EventEmitter {
                             x: this.roomChildrenScale[shorten[ind].name][0],
                             y: this.roomChildrenScale[shorten[ind].name][1],
                             z: this.roomChildrenScale[shorten[ind].name][2],
-                            ease: 'back.out(2.2)',
                             duration: 0.3
                         },
                         '<75%'
