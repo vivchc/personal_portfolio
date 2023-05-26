@@ -107,9 +107,8 @@ export default class Room {
                 roomChild.rotation.x = -1.5 * Math.PI;
             }
 
+            // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
             this.roomChildren[roomChild.name] = roomChild;
-
-            // Store room objects in roomChildren and hide all room objects
             if (
                 roomChild.name != 'cup_for_intro' &&
                 roomChild.name != 'room_window' &&
