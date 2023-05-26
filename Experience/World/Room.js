@@ -10,10 +10,12 @@ export default class Room {
         this.resources = this.experience.resources;
         this.time = this.experience.time;
         // Grab loaded assets from Resources
-        this.room = this.resources.items.room;
+        this.room = this.resources.items.room; // note: directly grabbing room loaded from Resources.js
         this.actualRoom = this.room.scene;
         // Store all children in Room for later reference
         this.roomChildren = {};
+        // Store x, y, z scale values for children in Room
+        this.roomChildrenScale = {};
 
         // lerp = linear interpolation, makes camera movement smoother
         this.lerp = {
@@ -94,10 +96,6 @@ export default class Room {
                 });
             }
 
-            // Hide entire room model during preloader
-            // note: final result should hide all room objects
-            roomChild.scale.set(0, 0, 0);
-
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
                 // Initial size
@@ -109,7 +107,8 @@ export default class Room {
                 roomChild.rotation.x = -1.5 * Math.PI;
             }
 
-            // Store room objects in roomChildren
+            // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
+            this.roomChildren[roomChild.name] = roomChild;
             if (
                 roomChild.name != 'cup_for_intro' &&
                 roomChild.name != 'room_window' &&
@@ -117,14 +116,29 @@ export default class Room {
             ) {
                 // roomChild has children; put each into roomChildren
                 roomChild.children.forEach((child) => {
-                    this.roomChildren[child.name] = child;
+                    // Rename asset name; cannot start with numbers
+                    child.name = child.name.substring(2);
+                    // Save original scale values. Scale object not iterable; set each to float.
+                    this.roomChildrenScale[child.name] = [
+                        parseFloat(child.scale.x),
+                        parseFloat(child.scale.y),
+                        parseFloat(child.scale.z)
+                    ];
+                    // Hide room object
+                    child.scale.set(0, 0, 0);
                 });
             } else {
                 // roomChild has NO children; put directly into roomChildren
-                this.roomChildren[roomChild.name] = roomChild;
+                // Save original scale values. Scale object not iterable; set each to float.
+                this.roomChildrenScale[roomChild.name] = [
+                    parseFloat(roomChild.scale.x),
+                    parseFloat(roomChild.scale.y),
+                    parseFloat(roomChild.scale.z)
+                ];
+                // Hide room object
+                roomChild.scale.set(0, 0, 0);
             }
         });
-
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
         this.scene.add(this.actualRoom);
