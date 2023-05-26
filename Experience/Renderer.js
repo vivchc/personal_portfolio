@@ -15,6 +15,7 @@ export default class Renderer {
     // Renders scene
     setRenderer() {
         this.renderer = new THREE.WebGLRenderer({
+            // Default sortObjects true
             canvas: this.canvas,
             antialias: true
         });

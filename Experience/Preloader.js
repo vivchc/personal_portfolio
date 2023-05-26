@@ -28,6 +28,8 @@ export default class Preloader extends EventEmitter {
         this.room = this.experience.world.room.actualRoom;
         this.roomChildren = this.experience.world.room.roomChildren;
         this.roomChildrenScale = this.experience.world.room.roomChildrenScale;
+
+        console.log(this.roomChildren);
     }
 
     // Initial animation for preloader
@@ -114,12 +116,25 @@ export default class Preloader extends EventEmitter {
                         'spin_cup_room'
                     )
 
-                    // Scale preloader cup to room size
-                    .to(this.roomChildren.cup_for_intro.scale, {
-                        x: 44,
-                        y: 44,
-                        z: 27
-                    })
+                    //---Enlarge preloader cup---
+                    //Scale preloader cup to room size
+                    .to(
+                        this.roomChildren.cup_for_intro.scale,
+                        {
+                            x: 44,
+                            y: 44,
+                            z: 27
+                        },
+                        'scale_cup_bigger'
+                    )
+                    // Move cup up on screen
+                    .to(
+                        this.roomChildren.cup_for_intro.position,
+                        {
+                            y: 1
+                        },
+                        'scale_cup_bigger'
+                    )
 
                     //---Preloader cup disappears while room appears---
                     // Unhide room model walls & floor
@@ -131,7 +146,7 @@ export default class Preloader extends EventEmitter {
                             z: 1,
                             duration: 0.7
                         },
-                        'scale_together'
+                        'scale_cup_room_together'
                     )
                     // Spin room model walls & floor while appearing
                     .to(
@@ -139,7 +154,7 @@ export default class Preloader extends EventEmitter {
                         {
                             y: 4 * Math.PI // note: do we have to change rotation; not centered?
                         },
-                        'scale_together'
+                        'scale_cup_room_together'
                     )
                     // Hide preloader cup
                     .to(
@@ -150,7 +165,7 @@ export default class Preloader extends EventEmitter {
                             z: 0,
                             duration: 1
                         },
-                        'scale_together'
+                        'scale_cup_room_together'
                     )
                     // Spin preloader cup while disappearing
                     .to(
@@ -159,7 +174,7 @@ export default class Preloader extends EventEmitter {
                             z: 3 * Math.PI,
                             ease: 'quartic.out'
                         },
-                        'scale_together'
+                        'scale_cup_room_together'
                     )
                     // Move preloader cup up on the screen
                     .to(
@@ -169,73 +184,184 @@ export default class Preloader extends EventEmitter {
                             ease: 'circular.out',
                             duration: 0.3
                         },
-                        'scale_together'
+                        'scale_cup_room_together'
                     );
 
                 //===UNHIDE ROOM OBJECTS===
-                // Unhide all objects ending in 01
-                for (const obj in this.roomChildren) {
-                    // obj only returns name of child in roomChildren
-                    if (obj.match('_01$')) {
-                        this.secondTimeline.to(
-                            this.roomChildren[obj].scale,
-                            {
-                                x: this.roomChildrenScale[obj][0],
-                                y: this.roomChildrenScale[obj][1],
-                                z: this.roomChildrenScale[obj][2],
-                                ease: 'back.out(2.2)',
-                                duration: () => {
-                                    return Math.random() * 0.5 + 0.1;
-                                }
-                            },
-                            'same01'
-                        );
-                    }
-                    if (obj.match('_02$')) {
-                        this.secondTimeline.to(
-                            this.roomChildren[obj].scale,
-                            {
-                                x: this.roomChildrenScale[obj][0],
-                                y: this.roomChildrenScale[obj][1],
-                                z: this.roomChildrenScale[obj][2],
-                                ease: 'back.out(2.2)',
-                                duration: () => {
-                                    return Math.random() * 0.5 + 0.1;
-                                }
-                            },
-                            'same02'
-                        );
-                    }
-                    if (obj.match('_03$')) {
-                        this.secondTimeline.to(
-                            this.roomChildren[obj].scale,
-                            {
-                                x: this.roomChildrenScale[obj][0],
-                                y: this.roomChildrenScale[obj][1],
-                                z: this.roomChildrenScale[obj][2],
-                                ease: 'back.out(2.2)',
-                                duration: () => {
-                                    return Math.random() * 0.5 + 0.1;
-                                }
-                            },
-                            'same03'
-                        );
-                    }
-                    if (obj.match('_04$')) {
-                        this.secondTimeline.to(
-                            this.roomChildren[obj].scale,
-                            {
-                                x: this.roomChildrenScale[obj][0],
-                                y: this.roomChildrenScale[obj][1],
-                                z: this.roomChildrenScale[obj][2],
-                                ease: 'back.out(2.2)',
-                                duration: () => {
-                                    return Math.random() * 0.5 + 0.1;
-                                }
-                            },
-                            'same04'
-                        );
-                    }
+                let shorten; // shorten declaration
+
+                // Unhide group desk
+                shorten = this.roomChildren.desk.children;
+                for (const ind in shorten) {
+                    this.secondTimeline.to(shorten[ind].scale, {
+                        x: this.roomChildrenScale[shorten[ind].name][0],
+                        y: this.roomChildrenScale[shorten[ind].name][1],
+                        z: this.roomChildrenScale[shorten[ind].name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.15
+                    });
+                }
+
+                // Unhide group desk_stuff
+                shorten = this.roomChildren.desk_stuff.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(shorten[ind].scale, {
+                        x: this.roomChildrenScale[shorten[ind].name][0],
+                        y: this.roomChildrenScale[shorten[ind].name][1],
+                        z: this.roomChildrenScale[shorten[ind].name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.2
+                    });
+                }
+
+                // Unhide group bag_pets + fish + memoboard
+                shorten = this.roomChildren.bag_pets.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+                shorten = this.roomChildren.fish; // shorten declaration
+                this.secondTimeline.to(
+                    shorten.scale,
+                    {
+                        x: this.roomChildrenScale[shorten.name][0],
+                        y: this.roomChildrenScale[shorten.name][1],
+                        z: this.roomChildrenScale[shorten.name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.3
+                    },
+                    '<25%'
+                );
+                shorten = this.roomChildren.memoboard.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+
+                // Unhide group chair
+                shorten = this.roomChildren.chair.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+
+                // Unhide group drawer
+                shorten = this.roomChildren.drawer.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+
+                // Unhide group exercise_whiteboard
+                shorten = this.roomChildren.exercise_whiteboard.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+
+                // Unhide group floor_stuff + painting
+                shorten = this.roomChildren.floor_stuff.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+                shorten = this.roomChildren.painting; // shorten declaration
+                this.secondTimeline.to(
+                    shorten.scale,
+                    {
+                        x: this.roomChildrenScale[shorten.name][0],
+                        y: this.roomChildrenScale[shorten.name][1],
+                        z: this.roomChildrenScale[shorten.name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.3
+                    },
+                    '<25%'
+                );
+
+                // Unhide group lamp
+                shorten = this.roomChildren.lamp.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
+                }
+
+                // Unhide group wall_shelf
+                shorten = this.roomChildren.wall_shelf.children; // shorten declaration
+                for (const ind in shorten) {
+                    this.secondTimeline.to(
+                        shorten[ind].scale,
+                        {
+                            x: this.roomChildrenScale[shorten[ind].name][0],
+                            y: this.roomChildrenScale[shorten[ind].name][1],
+                            z: this.roomChildrenScale[shorten[ind].name][2],
+                            ease: 'back.out(2.2)',
+                            duration: 0.3
+                        },
+                        '<25%'
+                    );
                 }
             } else {
                 // Device is mobile

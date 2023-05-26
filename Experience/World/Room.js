@@ -10,7 +10,7 @@ export default class Room {
         this.resources = this.experience.resources;
         this.time = this.experience.time;
         // Grab loaded assets from Resources
-        this.room = this.resources.items.room;
+        this.room = this.resources.items.room; // note: directly grabbing room loaded from Resources.js
         this.actualRoom = this.room.scene;
         // Store all children in Room for later reference
         this.roomChildren = {};
@@ -96,10 +96,6 @@ export default class Room {
                 });
             }
 
-            // Hide entire room model during preloader
-            // note: final result should hide all room objects
-            // roomChild.scale.set(0, 0, 0);
-
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
                 // Initial size
@@ -111,7 +107,9 @@ export default class Room {
                 roomChild.rotation.x = -1.5 * Math.PI;
             }
 
-            // Store room objects in roomChildren
+            this.roomChildren[roomChild.name] = roomChild;
+
+            // Store room objects in roomChildren and hide all room objects
             if (
                 roomChild.name != 'cup_for_intro' &&
                 roomChild.name != 'room_window' &&
@@ -119,6 +117,8 @@ export default class Room {
             ) {
                 // roomChild has children; put each into roomChildren
                 roomChild.children.forEach((child) => {
+                    // Rename asset name; cannot start with numbers
+                    child.name = child.name.substring(2);
                     // Save original scale values. Scale object not iterable; set each to float.
                     this.roomChildrenScale[child.name] = [
                         parseFloat(child.scale.x),
@@ -127,7 +127,6 @@ export default class Room {
                     ];
                     // Hide room object
                     child.scale.set(0, 0, 0);
-                    this.roomChildren[child.name] = child;
                 });
             } else {
                 // roomChild has NO children; put directly into roomChildren
@@ -139,7 +138,6 @@ export default class Room {
                 ];
                 // Hide room object
                 roomChild.scale.set(0, 0, 0);
-                this.roomChildren[roomChild.name] = roomChild;
             }
         });
         // Scale room model to 2 square units on GridHelper
