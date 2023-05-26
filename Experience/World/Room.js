@@ -14,6 +14,8 @@ export default class Room {
         this.actualRoom = this.room.scene;
         // Store all children in Room for later reference
         this.roomChildren = {};
+        // Store x, y, z scale values for children in Room
+        this.roomChildrenScale = {};
 
         // lerp = linear interpolation, makes camera movement smoother
         this.lerp = {
@@ -96,7 +98,7 @@ export default class Room {
 
             // Hide entire room model during preloader
             // note: final result should hide all room objects
-            roomChild.scale.set(0, 0, 0);
+            // roomChild.scale.set(0, 0, 0);
 
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
@@ -117,14 +119,29 @@ export default class Room {
             ) {
                 // roomChild has children; put each into roomChildren
                 roomChild.children.forEach((child) => {
+                    // Save original scale values. Scale object not iterable; set each to float.
+                    this.roomChildrenScale[child.name] = [
+                        parseFloat(child.scale.x),
+                        parseFloat(child.scale.y),
+                        parseFloat(child.scale.z)
+                    ];
+                    // Hide room object
+                    child.scale.set(0, 0, 0);
                     this.roomChildren[child.name] = child;
                 });
             } else {
                 // roomChild has NO children; put directly into roomChildren
+                // Save original scale values. Scale object not iterable; set each to float.
+                this.roomChildrenScale[roomChild.name] = [
+                    parseFloat(roomChild.scale.x),
+                    parseFloat(roomChild.scale.y),
+                    parseFloat(roomChild.scale.z)
+                ];
+                // Hide room object
+                roomChild.scale.set(0, 0, 0);
                 this.roomChildren[roomChild.name] = roomChild;
             }
         });
-
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
         this.scene.add(this.actualRoom);

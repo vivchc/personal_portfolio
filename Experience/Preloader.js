@@ -27,7 +27,7 @@ export default class Preloader extends EventEmitter {
     setAssets() {
         this.room = this.experience.world.room.actualRoom;
         this.roomChildren = this.experience.world.room.roomChildren;
-        console.log(this.roomChildren);
+        this.roomChildrenScale = this.experience.world.room.roomChildrenScale;
     }
 
     // Initial animation for preloader
@@ -45,8 +45,8 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.5)',
                         duration: 0.7
                     })
-                    // Move preloader cup to the left
-                    .to(this.roomChildren.cup_for_intro.position, {
+                    // Move preloader cup AND room to the left
+                    .to(this.room.position, {
                         x: -2.5,
                         ease: 'power1.out',
                         duration: 0.7,
@@ -93,9 +93,9 @@ export default class Preloader extends EventEmitter {
                         },
                         'spin_cup_room'
                     )
-                    // Center preloader cup
+                    // Center preloader cup AND room
                     .to(
-                        this.roomChildren.cup_for_intro.position,
+                        this.room.position,
                         {
                             x: 0,
                             y: 0,
@@ -135,7 +135,7 @@ export default class Preloader extends EventEmitter {
                     )
                     // Spin room model walls & floor while appearing
                     .to(
-                        this.roomChildren.room_window.rotation,
+                        this.room.rotation,
                         {
                             y: 4 * Math.PI // note: do we have to change rotation; not centered?
                         },
@@ -160,20 +160,81 @@ export default class Preloader extends EventEmitter {
                             ease: 'quartic.out'
                         },
                         'scale_together'
+                    )
+                    // Move preloader cup up on the screen
+                    .to(
+                        this.roomChildren.cup_for_intro.position,
+                        {
+                            y: 0.2,
+                            ease: 'circular.out',
+                            duration: 0.3
+                        },
+                        'scale_together'
                     );
 
                 //===UNHIDE ROOM OBJECTS===
                 // Unhide all objects ending in 01
                 for (const obj in this.roomChildren) {
                     // obj only returns name of child in roomChildren
-                    if (obj.match('01$')) {
-                        // debug: no error but not unhiding; not accessing obj
-                        this.secondTimeline.to(this.roomChildren[obj].scale, {
-                            x: 0.165,
-                            y: 0.165,
-                            z: 0.165,
-                            ease: 'back.out(2.2)'
-                        });
+                    if (obj.match('_01$')) {
+                        this.secondTimeline.to(
+                            this.roomChildren[obj].scale,
+                            {
+                                x: this.roomChildrenScale[obj][0],
+                                y: this.roomChildrenScale[obj][1],
+                                z: this.roomChildrenScale[obj][2],
+                                ease: 'back.out(2.2)',
+                                duration: () => {
+                                    return Math.random() * 0.5 + 0.1;
+                                }
+                            },
+                            'same01'
+                        );
+                    }
+                    if (obj.match('_02$')) {
+                        this.secondTimeline.to(
+                            this.roomChildren[obj].scale,
+                            {
+                                x: this.roomChildrenScale[obj][0],
+                                y: this.roomChildrenScale[obj][1],
+                                z: this.roomChildrenScale[obj][2],
+                                ease: 'back.out(2.2)',
+                                duration: () => {
+                                    return Math.random() * 0.5 + 0.1;
+                                }
+                            },
+                            'same02'
+                        );
+                    }
+                    if (obj.match('_03$')) {
+                        this.secondTimeline.to(
+                            this.roomChildren[obj].scale,
+                            {
+                                x: this.roomChildrenScale[obj][0],
+                                y: this.roomChildrenScale[obj][1],
+                                z: this.roomChildrenScale[obj][2],
+                                ease: 'back.out(2.2)',
+                                duration: () => {
+                                    return Math.random() * 0.5 + 0.1;
+                                }
+                            },
+                            'same03'
+                        );
+                    }
+                    if (obj.match('_04$')) {
+                        this.secondTimeline.to(
+                            this.roomChildren[obj].scale,
+                            {
+                                x: this.roomChildrenScale[obj][0],
+                                y: this.roomChildrenScale[obj][1],
+                                z: this.roomChildrenScale[obj][2],
+                                ease: 'back.out(2.2)',
+                                duration: () => {
+                                    return Math.random() * 0.5 + 0.1;
+                                }
+                            },
+                            'same04'
+                        );
                     }
                 }
             } else {
