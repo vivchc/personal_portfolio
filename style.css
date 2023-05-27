@@ -47,8 +47,8 @@ LANDING PAGE
 .page {
     z-index: 99999;
     width: 100%;
-    height: 100vh; /* hide default scrollbar */
-    overflow: hidden;
+    height: 100vh;
+    overflow: hidden; /* hide default scrollbar */
 }
 
 .page-wrapper {

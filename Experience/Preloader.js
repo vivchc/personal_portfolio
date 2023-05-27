@@ -1,7 +1,7 @@
 // Loading screen
-import { EventEmitter } from 'events';
 import Experience from './Experience';
 import GSAP from 'gsap';
+import { EventEmitter } from 'events';
 
 export default class Preloader extends EventEmitter {
     constructor() {
@@ -37,11 +37,11 @@ export default class Preloader extends EventEmitter {
 
             //===ANIMATE PRELOADER CUP===
             // Different preloader animations for desktop/mobile
-            this.roomChildren.cup_for_intro.position.set(
-                -0.0026,
-                -0.27,
-                0.120295
-            );
+            // this.roomChildren.cup_for_intro.position.set(
+            //     -0.0026,
+            //     -0.27,
+            //     0.120295
+            // );
             if (this.device === 'desktop') {
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
@@ -53,19 +53,24 @@ export default class Preloader extends EventEmitter {
                     })
                     // Move preloader cup AND room to the left
                     .to(this.room.position, {
-                        x: -2.5,
+                        // x: -2.5, // note: should we do -1 or -2.5
+                        x: -2,
                         ease: 'power1.out',
                         duration: 0.7,
                         onComplete: resolve // signals end of animation
                     });
             } else {
                 // Device is mobile
-                this.roomChildren.cup_for_intro.position.set(
-                    -0.0026,
-                    -0.27,
-                    0.120295
-                );
-                this.camera.orthographicCamera.rotation.set(-Math.PI / 7, 0, 0);
+                // this.roomChildren.cup_for_intro.position.set(
+                //     -0.0026,
+                //     -0.27,
+                //     0.120295
+                // );
+                // this.camera.orthographicCamera.rotation.set(
+                //     -Math.PI / 5.5,
+                //     0,
+                //     0
+                // );
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
                         x: 7,
@@ -76,7 +81,8 @@ export default class Preloader extends EventEmitter {
                     })
                     // Move preloader cup up
                     .to(this.room.position, {
-                        z: -2.5,
+                        // z: -2.5, // note: should we do -1 or -2.5
+                        z: -1,
                         ease: 'power1.out',
                         duration: 0.7,
                         onComplete: resolve // signals end of animation
@@ -392,69 +398,142 @@ export default class Preloader extends EventEmitter {
         });
     }
 
-    // Detects direction of scroll then plays animation
+    // // Detects direction of scroll then plays animation
+    // onScroll(e) {
+    //     // If user scrolls down
+    //     if (e.deltaY > 0) {
+    //         this.removeEventListeners();
+    //         this.playSecondIntro();
+    //     }
+    // }
+
+    // // Get user's current touch
+    // onTouch(e) {
+    //     this.initialY = e.touches[0].clientY;
+    // }
+
+    // // Move screen if user swipes up
+    // onTouchMove(e) {
+    //     let currentY = e.touches[0].clientY;
+    //     let diff = this.initialY - currentY;
+    //     // If user swipes up, play second intro
+    //     if (diff > 0) {
+    //         this.removeEventListeners();
+    //         this.playSecondIntro();
+    //     }
+    //     // Resets user's touch
+    //     this.initialY = null;
+    // }
+
+    // removeEventListeners() {
+    //     window.removeEventListener('wheel', this.scrollOnce);
+    //     window.removeEventListener('touchstart', this.touchStart);
+    //     window.removeEventListener('touchmove', this.touchMove);
+    // }
+
+    // async playIntro() {
+    //     // Wait until firstIntro is done before proceeding
+    //     await this.firstIntro();
+    //     this.moveFlag = true;
+    //     this.scrollOnce = this.onScroll.bind(this); // allows instance of onScroll func to be removed
+    //     this.touchStart = this.onTouch.bind(this);
+    //     this.touchMove = this.onTouchMove.bind(this);
+    //     window.addEventListener('wheel', this.scrollOnce);
+    //     window.addEventListener('touchstart', this.touchStart);
+    //     window.addEventListener('touchmove', this.touchMove);
+    // }
+
+    // async playSecondIntro() {
+    //     this.moveFlag = false;
+    //     // Wait until secondIntro is done before proceeding
+    //     await this.secondIntro();
+    //     this.emit('enablecontrols');
+    // }
+
+    // // Moves preloader cup with welcome message when resizing window
+    // move() {
+    //     if (this.device === 'desktop') {
+    //         this.room.position.set(-2.5, 0, 0);
+    //     } else {
+    //         this.room.position.set(0, 0, 0); // for mobile
+    //     }
+    // }
+
+    // update() {
+    //     if (this.moveFlag) {
+    //         this.move();
+    //     }
+    // }
+
     onScroll(e) {
-        // If user scrolls down
         if (e.deltaY > 0) {
             this.removeEventListeners();
             this.playSecondIntro();
         }
     }
 
-    // Get user's current touch
     onTouch(e) {
         this.initialY = e.touches[0].clientY;
     }
 
-    // Move screen if user swipes up
     onTouchMove(e) {
         let currentY = e.touches[0].clientY;
-        let diff = this.initialY - currentY;
-        // If user swipes up, play second intro
-        if (diff > 0) {
+        let difference = this.initialY - currentY;
+        if (difference > 0) {
+            console.log('swipped up');
             this.removeEventListeners();
             this.playSecondIntro();
         }
-        // Resets user's touch
-        this.initialY = null;
+        this.intialY = null;
     }
 
     removeEventListeners() {
-        window.removeEventListener('wheel', this.scrollOnce);
+        window.removeEventListener('wheel', this.scrollOnceEvent);
         window.removeEventListener('touchstart', this.touchStart);
         window.removeEventListener('touchmove', this.touchMove);
     }
 
     async playIntro() {
-        // Wait until firstIntro is done before proceeding
+        this.scaleFlag = true;
         await this.firstIntro();
         this.moveFlag = true;
-        this.scrollOnce = this.onScroll.bind(this); // allows instance of onScroll func to be removed
+        this.scrollOnceEvent = this.onScroll.bind(this);
         this.touchStart = this.onTouch.bind(this);
         this.touchMove = this.onTouchMove.bind(this);
-        window.addEventListener('wheel', this.scrollOnce);
+        window.addEventListener('wheel', this.scrollOnceEvent);
         window.addEventListener('touchstart', this.touchStart);
         window.addEventListener('touchmove', this.touchMove);
     }
-
     async playSecondIntro() {
+        this.scaleFlag = false;
         this.moveFlag = false;
-        // Wait until secondIntro is done before proceeding
         await this.secondIntro();
         this.emit('enablecontrols');
     }
 
     move() {
         if (this.device === 'desktop') {
-            this.room.position.set(-2.5, 0, 0);
+            this.room.position.set(-2, 0, 0);
         } else {
-            this.room.position.set(0, 0, -1.5); // for mobile
+            this.room.position.set(0, 0, -1);
+        }
+    }
+
+    scale() {
+        if (this.device === 'desktop') {
+            this.roomChildren.cup_for_intro.scale.set(5, 5, 5);
+        } else {
+            this.roomChildren.cup_for_intro.scale.set(7, 7, 7);
         }
     }
 
     update() {
         if (this.moveFlag) {
             this.move();
+        }
+
+        if (this.scaleFlag) {
+            this.scale();
         }
     }
 }

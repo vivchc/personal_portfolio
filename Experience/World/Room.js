@@ -83,21 +83,6 @@ export default class Room {
                 });
             }
 
-            // Initialize starting position for objects within mailbox platform for animation later
-            // if (roomChild.name === 'mailbox') {
-            //     roomChild.children.forEach((e) => {
-            //         if (e.name.includes('floor')) {
-            //             console.log('mailbox floor');
-            //             // Set mailbox platform floor in hidden position. Trial&error to find positions.
-            //             e.position.x = 0;
-            //             e.position.z = 0; // equi. to y in Blender
-            //         } else {
-            //             // All other objects
-            //             e.scale.set(0, 0, 0);
-            //         }
-            //     });
-            // }
-
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
                 // Initial size

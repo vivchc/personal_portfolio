@@ -4,9 +4,11 @@ import Experience from './Experience';
 import GSAP from 'gsap';
 import ASScroll from '@ashthornton/asscroll';
 import { ScrollTrigger } from 'gsap/ScrollTrigger.js';
+import { EventEmitter } from 'events';
 
-export default class Controls {
+export default class Controls extends EventEmitter {
     constructor() {
+        super();
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
@@ -17,15 +19,13 @@ export default class Controls {
         this.actualRoom = this.experience.world.room.actualRoom;
         this.zoom = { zoomValue: this.camera.orthographicCamera.zoom };
 
-        // To animate mailbox objects
-        this.roomChildren = this.room.roomChildren;
-        this.roomChildrenScale = this.room.roomChildrenScale;
-
-        console.log(this.roomChildrenScale);
-
         this.circle1 = this.experience.world.floor.circle1;
         this.circle2 = this.experience.world.floor.circle2;
         this.circle3 = this.experience.world.floor.circle3;
+
+        // To animate mailbox objects
+        this.roomChildren = this.room.roomChildren;
+        this.roomChildrenScale = this.room.roomChildrenScale;
 
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);
