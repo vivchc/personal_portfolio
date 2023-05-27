@@ -12,6 +12,7 @@ export default class Room {
         // Grab loaded assets from Resources
         this.room = this.resources.items.room; // note: directly grabbing room loaded from Resources.js
         this.actualRoom = this.room.scene;
+
         // Store all children in Room for later reference
         this.roomChildren = {};
         // Store x, y, z scale values for children in Room
@@ -83,18 +84,19 @@ export default class Room {
             }
 
             // Initialize starting position for objects within mailbox platform for animation later
-            if (roomChild.name === 'mailbox') {
-                roomChild.children.forEach((e) => {
-                    if (e.name.includes('floor')) {
-                        // Set mailbox platform floor in hidden position. Trial&error to find positions.
-                        e.position.x = 5.5;
-                        e.position.z = -5.5; // equi. to y in Blender
-                    } else {
-                        // All other objects
-                        e.scale.set(0, 0, 0);
-                    }
-                });
-            }
+            // if (roomChild.name === 'mailbox') {
+            //     roomChild.children.forEach((e) => {
+            //         if (e.name.includes('floor')) {
+            //             console.log('mailbox floor');
+            //             // Set mailbox platform floor in hidden position. Trial&error to find positions.
+            //             e.position.x = 0;
+            //             e.position.z = 0; // equi. to y in Blender
+            //         } else {
+            //             // All other objects
+            //             e.scale.set(0, 0, 0);
+            //         }
+            //     });
+            // }
 
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
@@ -118,12 +120,31 @@ export default class Room {
                 roomChild.children.forEach((child) => {
                     // Rename asset name; cannot start with numbers
                     child.name = child.name.substring(2);
+
                     // Save original scale values. Scale object not iterable; set each to float.
                     this.roomChildrenScale[child.name] = [
                         parseFloat(child.scale.x),
                         parseFloat(child.scale.y),
                         parseFloat(child.scale.z)
                     ];
+
+                    // Move position for mailbox_floor
+                    if (child.name.includes('mailbox_floor')) {
+                        // Save initial position with scale
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.x)
+                        );
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.y)
+                        );
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.z)
+                        );
+
+                        // Set mailbox platform floor in hidden position. Found via trial&error.
+                        child.position.x = 5.5;
+                        child.position.z = -5.5; // equi. to y in Blender
+                    }
                     // Hide room object
                     child.scale.set(0, 0, 0);
                 });
@@ -139,6 +160,7 @@ export default class Room {
                 roomChild.scale.set(0, 0, 0);
             }
         });
+
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
         this.scene.add(this.actualRoom);

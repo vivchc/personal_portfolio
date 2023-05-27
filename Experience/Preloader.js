@@ -28,8 +28,6 @@ export default class Preloader extends EventEmitter {
         this.room = this.experience.world.room.actualRoom;
         this.roomChildren = this.experience.world.room.roomChildren;
         this.roomChildrenScale = this.experience.world.room.roomChildrenScale;
-
-        console.log(this.roomChildren);
     }
 
     // Initial animation for preloader
@@ -39,6 +37,11 @@ export default class Preloader extends EventEmitter {
 
             //===ANIMATE PRELOADER CUP===
             // Different preloader animations for desktop/mobile
+            this.roomChildren.cup_for_intro.position.set(
+                -0.0026,
+                -0.27,
+                0.120295
+            );
             if (this.device === 'desktop') {
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
@@ -57,7 +60,11 @@ export default class Preloader extends EventEmitter {
                     });
             } else {
                 // Device is mobile
-                this.roomChildren.cup_for_intro.position.set(0, -0.55, 0);
+                this.roomChildren.cup_for_intro.position.set(
+                    -0.0026,
+                    -0.27,
+                    0.120295
+                );
                 this.camera.orthographicCamera.rotation.set(-Math.PI / 7, 0, 0);
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
@@ -152,7 +159,7 @@ export default class Preloader extends EventEmitter {
                 .to(
                     this.room.rotation,
                     {
-                        y: 4 * Math.PI // note: do we have to change rotation; not centered?
+                        y: 4 * Math.PI
                     },
                     'scale_cup_room_together'
                 )
@@ -226,7 +233,7 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<75%'
+                    '<50%'
                 );
             }
             shorten = this.roomChildren.fish; // shorten declaration
@@ -239,7 +246,7 @@ export default class Preloader extends EventEmitter {
                     ease: 'back.out(2.2)',
                     duration: 0.3
                 },
-                '<25%'
+                '<15%'
             );
             shorten = this.roomChildren.memoboard.children; // shorten declaration
             for (const ind in shorten) {
@@ -252,7 +259,7 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
 
@@ -267,7 +274,7 @@ export default class Preloader extends EventEmitter {
                         z: this.roomChildrenScale[shorten[ind].name][2],
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
 
@@ -283,7 +290,7 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
 
@@ -299,7 +306,7 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
             shorten = this.roomChildren.painting; // shorten declaration
@@ -312,7 +319,7 @@ export default class Preloader extends EventEmitter {
                     ease: 'back.out(2.2)',
                     duration: 0.3
                 },
-                '<25%'
+                '<15%'
             );
 
             // Unhide group lamp
@@ -327,7 +334,7 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
 
@@ -343,27 +350,26 @@ export default class Preloader extends EventEmitter {
                         ease: 'back.out(2.2)',
                         duration: 0.3
                     },
-                    '<25%'
+                    '<15%'
                 );
             }
 
             //---Unhide group chair---
             shorten = this.roomChildren.chair.children; // shorten declaration
             // Unhide chair legs
-            this.secondTimeline.to(
-                shorten[0].scale,
-                {
-                    x: this.roomChildrenScale[shorten[0].name][0],
-                    y: this.roomChildrenScale[shorten[0].name][1],
-                    z: this.roomChildrenScale[shorten[0].name][2],
-                    ease: 'back.out(2.2)',
-                    duration: 0.3
-                },
-                '<25%'
-            );
-
-            // Unhide chair seat and spin
             this.secondTimeline
+                .to(
+                    shorten[0].scale,
+                    {
+                        x: this.roomChildrenScale[shorten[0].name][0],
+                        y: this.roomChildrenScale[shorten[0].name][1],
+                        z: this.roomChildrenScale[shorten[0].name][2],
+                        ease: 'back.out(2.2)',
+                        duration: 0.3
+                    },
+                    '<15%'
+                )
+                // Unhide chair seat and spin
                 .to(
                     shorten[1].scale,
                     {
@@ -378,10 +384,10 @@ export default class Preloader extends EventEmitter {
                 .to(
                     shorten[1].rotation,
                     {
-                        z: 2 * Math.PI,
+                        z: 4 * Math.PI,
                         onComplete: resolve // signals end of animation
                     },
-                    '<25%'
+                    '<15%'
                 );
         });
     }
@@ -422,6 +428,7 @@ export default class Preloader extends EventEmitter {
     async playIntro() {
         // Wait until firstIntro is done before proceeding
         await this.firstIntro();
+        this.moveFlag = true;
         this.scrollOnce = this.onScroll.bind(this); // allows instance of onScroll func to be removed
         this.touchStart = this.onTouch.bind(this);
         this.touchMove = this.onTouchMove.bind(this);
@@ -431,8 +438,23 @@ export default class Preloader extends EventEmitter {
     }
 
     async playSecondIntro() {
+        this.moveFlag = false;
         // Wait until secondIntro is done before proceeding
         await this.secondIntro();
         this.emit('enablecontrols');
+    }
+
+    move() {
+        if (this.device === 'desktop') {
+            this.room.position.set(-2.5, 0, 0);
+        } else {
+            this.room.position.set(0, 0, -1.5); // for mobile
+        }
+    }
+
+    update() {
+        if (this.moveFlag) {
+            this.move();
+        }
     }
 }

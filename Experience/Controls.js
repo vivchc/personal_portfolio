@@ -13,8 +13,15 @@ export default class Controls {
         this.sizes = this.experience.sizes;
         this.time = this.experience.time;
         this.camera = this.experience.camera;
-        this.room = this.experience.world.room.actualRoom;
+        this.room = this.experience.world.room;
+        this.actualRoom = this.experience.world.room.actualRoom;
         this.zoom = { zoomValue: this.camera.orthographicCamera.zoom };
+
+        // To animate mailbox objects
+        this.roomChildren = this.room.roomChildren;
+        this.roomChildrenScale = this.room.roomChildrenScale;
+
+        console.log(this.roomChildrenScale);
 
         this.circle1 = this.experience.world.floor.circle1;
         this.circle2 = this.experience.world.floor.circle2;
@@ -86,7 +93,7 @@ export default class Controls {
             '(min-width: 969px)': () => {
                 //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
-                this.room.scale.set(0.8, 0.8, 0.8);
+                this.actualRoom.scale.set(0.8, 0.8, 0.8);
 
                 //---FIRST SECTION---
                 // Camera positions found via Firefox's res. design mode 1920x1080
@@ -205,7 +212,7 @@ export default class Controls {
             '(max-width: 968px)': () => {
                 //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.04, 4, 6.5);
-                this.room.scale.set(0.45, 0.45, 0.45);
+                this.actualRoom.scale.set(0.45, 0.45, 0.45);
 
                 //---FIRST SECTION (MOBILE)----
                 this.firstMoveTimeline = new GSAP.timeline({
@@ -427,85 +434,86 @@ export default class Controls {
                     }
                 });
 
-                // Loop through children; this.room.children may render in arbitrary order
-                this.room.children.forEach((roomChild) => {
-                    if (roomChild.name === 'mailbox') {
-                        roomChild.children.forEach((child) => {
-                            // Animate mailbox floor extending out
-                            if (child.name.includes('floor')) {
-                                this.one = GSAP.to(child.position, {
-                                    // Final position relative to starting position in model
-                                    x: 0,
-                                    z: 0, // equi. to y in Blender
-                                    // note: adjust duration
-                                    duration: 0.3 // lower = faster
-                                });
-                            }
+                // Unhide mailbox objects from roomChildren
+                this.roomChildren['mailbox'].children.forEach((child) => {
+                    // Animate mailbox floor extending out
+                    if (child.name.includes('floor')) {
+                        this.mailboxTimeline
+                            .to(child.scale, {
+                                x: this.roomChildrenScale[child.name][0],
+                                y: this.roomChildrenScale[child.name][1],
+                                z: this.roomChildrenScale[child.name][2]
+                            })
+                            .to(child.position, {
+                                x: this.roomChildrenScale[child.name][3],
+                                y: this.roomChildrenScale[child.name][4],
+                                z: this.roomChildrenScale[child.name][5],
+                                duration: 0.3 // lower = faster
+                            });
+                    }
 
-                            // Animate steps (3 total)
-                            if (child.name.includes('step_01')) {
-                                this.two = GSAP.to(child.scale, {
-                                    // Final size relative to WITHIN the scene
-                                    x: 5.1,
-                                    y: 5.1,
-                                    z: 5.1,
-                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
-                                    duration: 0.5 // lower = faster
-                                });
-                            }
-                            if (child.name.includes('step_02')) {
-                                this.three = GSAP.to(child.scale, {
-                                    // Final size relative to WITHIN the scene
-                                    x: 5.1,
-                                    y: 5.1,
-                                    z: 5.1,
-                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
-                                    duration: 0.5 // lower = faster
-                                });
-                            }
-                            if (child.name.includes('step_03')) {
-                                this.four = GSAP.to(child.scale, {
-                                    // Final size relative to WITHIN the scene
-                                    x: 5.1,
-                                    y: 5.1,
-                                    z: 5.1,
-                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
-                                    duration: 0.5 // lower = faster
-                                });
-                            }
-
-                            // Animate mailbox itself
-                            if (child.name.includes('stand')) {
-                                this.five = GSAP.to(child.scale, {
-                                    // Final size relative to WITHIN the scene
-                                    x: 5.1,
-                                    y: 5.1,
-                                    z: 5.1,
-                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
-                                    duration: 0.5 // lower = faster
-                                });
-                            }
-                            if (child.name.includes('body')) {
-                                this.six = GSAP.to(child.scale, {
-                                    // Final size relative to WITHIN the scene
-                                    x: 5.1,
-                                    y: 5.1,
-                                    z: 5.1,
-                                    ease: 'back.out(2)', // obj expands then shrinks to actual size
-                                    duration: 0.5 // lower = faster
-                                });
-                            }
+                    // Animate steps (3 total)
+                    if (child.name.includes('step_01')) {
+                        this.two = GSAP.to(child.scale, {
+                            // Final size relative to WITHIN the scene
+                            x: 5.1,
+                            y: 5.1,
+                            z: 5.1,
+                            ease: 'back.out(2)', // obj expands then shrinks to actual size
+                            duration: 0.5 // lower = faster
                         });
+                    }
+                    if (child.name.includes('step_02')) {
+                        this.three = GSAP.to(child.scale, {
+                            // Final size relative to WITHIN the scene
+                            x: 5.1,
+                            y: 5.1,
+                            z: 5.1,
+                            ease: 'back.out(2)', // obj expands then shrinks to actual size
+                            duration: 0.5 // lower = faster
+                        });
+                    }
+                    if (child.name.includes('step_03')) {
+                        this.four = GSAP.to(child.scale, {
+                            // Final size relative to WITHIN the scene
+                            x: 5.1,
+                            y: 5.1,
+                            z: 5.1,
+                            ease: 'back.out(2)', // obj expands then shrinks to actual size
+                            duration: 0.5 // lower = faster
+                        });
+                    }
 
-                        // Animate children in order
-                        this.mailboxTimeline.add(this.one); // floor
-                        this.mailboxTimeline.add(this.two, '-=0.2'); // step1
-                        this.mailboxTimeline.add(this.three, '-=0.2'); // step2
-                        this.mailboxTimeline.add(this.four, '-=0.2'); // step3
-                        this.mailboxTimeline.add(this.five, '-=0.2'); // mailbox stand
-                        this.mailboxTimeline.add(this.six, '-=0.2'); // mailbox body
+                    // Animate mailbox itself
+                    if (child.name.includes('stand')) {
+                        this.five = GSAP.to(child.scale, {
+                            // Final size relative to WITHIN the scene
+                            x: 5.1,
+                            y: 5.1,
+                            z: 5.1,
+                            ease: 'back.out(2)', // obj expands then shrinks to actual size
+                            duration: 0.5 // lower = faster
+                        });
+                    }
+                    if (child.name.includes('body')) {
+                        this.six = GSAP.to(child.scale, {
+                            // Final size relative to WITHIN the scene
+                            x: 5.1,
+                            y: 5.1,
+                            z: 5.1,
+                            ease: 'back.out(2)', // obj expands then shrinks to actual size
+                            duration: 0.5 // lower = faster
+                        });
                     }
                 });
+
+                // Animate children in order
+                // this.mailboxTimeline.add(this.one); // floor
+                this.mailboxTimeline.add(this.two, '-=0.2'); // step1
+                this.mailboxTimeline.add(this.three, '-=0.2'); // step2
+                this.mailboxTimeline.add(this.four, '-=0.2'); // step3
+                this.mailboxTimeline.add(this.five, '-=0.2'); // mailbox stand
+                this.mailboxTimeline.add(this.six, '-=0.2'); // mailbox body
             }
         });
     }

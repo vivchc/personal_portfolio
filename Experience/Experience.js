@@ -55,6 +55,7 @@ export default class Experience {
 
     // Update functions from other classes
     update() {
+        this.preloader.update();
         this.camera.update();
         this.world.update();
         this.renderer.update();
