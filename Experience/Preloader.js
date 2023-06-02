@@ -41,6 +41,7 @@ export default class Preloader extends EventEmitter {
         return new Promise((resolve) => {
             this.firstTimeline = new GSAP.timeline();
 
+            this.firstTimeline.set('.animatethis', { y: 0, yPercent: 100 });
             this.firstTimeline.to('.preloader', {
                 opacity: 0,
                 delay: 1,
@@ -89,7 +90,7 @@ export default class Preloader extends EventEmitter {
             // Animate preloader text
             this.firstTimeline
                 .to('.intro-text .animatethis', {
-                    yPercent: -100,
+                    yPercent: 0,
                     stagger: 0.05,
                     ease: 'back.out(1.7)'
                 })
@@ -214,7 +215,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.hero-main-title .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -223,7 +224,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.hero-main-description .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -232,7 +233,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.first-sub .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -241,7 +242,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.second-sub .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -466,14 +467,14 @@ export default class Preloader extends EventEmitter {
                         shorten[1].rotation,
                         {
                             z: 4 * Math.PI,
-                            ease: 'quadratic.out(1.2)',
-                            onComplete: resolve // signals end of animation
+                            ease: 'quadratic.out(1.2)'
                         },
                         '<15%'
                     )
                     // Make arrow svg appear after room model loaded
                     .to('.arrow-svg-wrapper', {
-                        opacity: 1
+                        opacity: 1,
+                        onComplete: resolve // signals end of animation
                     });
             } else {
                 this.secondTimeline
@@ -589,7 +590,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.hero-main-title .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -598,7 +599,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.hero-main-description .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -607,7 +608,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.first-sub .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -616,7 +617,7 @@ export default class Preloader extends EventEmitter {
                     .to(
                         '.second-sub .animatethis',
                         {
-                            yPercent: -100,
+                            yPercent: 0,
                             stagger: 0.07,
                             ease: 'back.out(1.7)'
                         },
@@ -841,14 +842,14 @@ export default class Preloader extends EventEmitter {
                         shorten[1].rotation,
                         {
                             z: 4 * Math.PI,
-                            ease: 'quadratic.out(1.2)',
-                            onComplete: resolve // signals end of animation
+                            ease: 'quadratic.out(1.2)'
                         },
                         '<15%'
                     )
                     // Make arrow svg appear after room model loaded
                     .to('.arrow-svg-wrapper', {
-                        opacity: 1
+                        opacity: 1,
+                        onComplete: resolve // signals end of animation
                     });
             }
         });

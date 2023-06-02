@@ -148,11 +148,10 @@ svg {
 .arrow-svg-wrapper {
     position: absolute;
     top: 90%;
-    left: calc(50% - 5vh); /* must account for arrow size */
+    left: calc(50% - 2.5vw); /* must account for arrow size */
     opacity: 0; /* Set initial state*/
-    height: 100%;
-    transform: translate(-50%, -50%);
-    /* width, height */
+    color: var(--text-black);
+    transform: translate(-50%, -50%); /* width, height */
     animation: bounce 0.5s ease-in alternate infinite;
 }
 
@@ -189,14 +188,14 @@ SECTIONS
     margin-right: auto;
     /* Round out section edges */
     border-top-right-radius: 91vw 91vw;
-    border-bottom-right-radius: 0vw 0vw;
+    border-bottom-right-radius: 0px 0px;
 }
 
 .right {
     margin-left: auto;
     /* Round out section edges */
     border-top-left-radius: 91vw 91vw;
-    border-bottom-left-radius: 0vw 0vw;
+    border-bottom-left-radius: 0px 0px;
 }
 
 /* Progress bar */
@@ -204,7 +203,7 @@ SECTIONS
     height: 0;
     /* note: change width to responsive units */
     width: 12px;
-    z-index: 99999;
+    z-index: 9999;
 }
 
 .progress-bar-wrapper-left {
