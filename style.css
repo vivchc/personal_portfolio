@@ -19,9 +19,10 @@ body {
 
 :root {
     /* Use a color close to but not exactly black */
+    --floor-color: #e1e8e9; /* not sure why, same color doesn't appear as in Floor */
     --text-black: #30323d;
     --primary-color: #e6decd;
-    --accent-color: #00bcb9;
+    --first-accent-color: #00bcb9;
     --second-accent-color: #d88c91;
     --third-accent-color: #75b5db;
 }
@@ -42,6 +43,68 @@ EXPERIENCE
 }
 
 /*---
+LOADING SCREEN (3 DOTS)
+---*/
+.hidden {
+    display: none;
+}
+
+.preloader {
+    /* Loading screen background */
+    background-color: var(--floor-color);
+    width: 100%;
+    height: 100vh;
+    z-index: 99999;
+    position: fixed;
+    opacity: 1;
+}
+
+.preloader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    width: 0.7vw;
+    height: 0.7vw;
+    border-radius: 50%;
+    margin: 0.4vw;
+    /* Color of loading dots */
+    background-color: #d0aa84;
+    animation: load 1s ease-in-out infinite;
+}
+
+/* Create a slow wave effect */
+.circle:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.circle:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+@keyframes load {
+    0% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(-1.8vh);
+    }
+    40% {
+        transform: translateY(0);
+    }
+}
+
+/*---
 LANDING PAGE
 ---*/
 .page {
@@ -55,42 +118,93 @@ LANDING PAGE
     position: relative;
 }
 
+/* Preloader text */
+.animatethis {
+    display: inline-block; /* so text can move */
+    transform: translateY(100%);
+}
+
+.intro-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    /* Center text */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* width, height */
+    /* Format text */
+    font-weight: 500;
+    font-size: 5.2vw; /* 40px */
+    color: var(--text-black);
+}
+
+/* Preloader arrow */
+svg {
+    /* Arrow size */
+    height: 5vh;
+    width: 5vw;
+}
+.arrow-svg-wrapper {
+    position: absolute;
+    top: 90%;
+    left: calc(50% - 5vh); /* must account for arrow size */
+    opacity: 0; /* Set initial state*/
+    height: 100%;
+    transform: translate(-50%, -50%);
+    /* width, height */
+    animation: bounce 0.5s ease-in alternate infinite;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(1.5vh);
+    }
+}
+
 /*---
 SECTIONS
 ---*/
+/* Margin between sections */
 .section-margin {
-    height: 3000px;
+    height: 278vh;
     width: 100%;
 }
 
+/* Spacing above/below section header & text */
 .section {
     position: relative;
     width: 50%;
-    padding: 1000px 4%;
+    padding: 142vh 4%;
     margin: 0;
     background-color: var(--primary-color);
-    overflow: hidden;
+    /* note: commented because cuts off geometric header */
+    /* overflow: hidden; */
 }
 
 .left {
     margin-right: auto;
     /* Round out section edges */
-    border-top-right-radius: 700px 700px;
-    border-bottom-right-radius: 0px 0px;
+    border-top-right-radius: 91vw 91vw;
+    border-bottom-right-radius: 0vw 0vw;
 }
 
 .right {
     margin-left: auto;
     /* Round out section edges */
-    border-top-left-radius: 700px 700px;
-    border-bottom-left-radius: 0px 0px;
+    border-top-left-radius: 91vw 91vw;
+    border-bottom-left-radius: 0vw 0vw;
 }
 
 /* Progress bar */
 .progress-wrapper {
     height: 0;
+    /* note: change width to responsive units */
     width: 12px;
-    z-index: 9999;
+    z-index: 99999;
 }
 
 .progress-bar-wrapper-left {
@@ -108,34 +222,36 @@ SECTIONS
 .progress-bar {
     height: 100vh;
     width: 100%;
-    background-color: var(--accent-color);
+    background-color: var(--first-accent-color);
     transform-origin: top center;
     transform: scaleY(1);
 }
 
+/* Section header & text positioning relative to entire section */
 .section-intro-wrapper {
     position: relative;
     padding: 20% 5%;
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 400px;
+    border-bottom: 2px solid var(--first-accent-color);
+    padding-bottom: 63vh;
 }
 
+/* Spacing around section header & text */
 .section-detail-wrapper {
     position: relative;
-    padding: 20% 5%;
+    padding: 10% 7%;
 }
 
 .section-heading {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.8;
-    margin-top: 64px;
+    font-size: 1.1vw;
+    font-weight: 600;
+    margin-top: 8vh;
+    margin-bottom: 2vh;
 }
 
 .section-text {
-    line-height: 2;
-    margin-top: 18px;
-    font-size: 16px;
+    line-height: 2.8vh;
+    margin-top: 1.7vh;
+    font-size: 0.9vw;
 }
 
 /*---
@@ -144,17 +260,19 @@ SECTIONS
 .section-title {
     position: absolute;
     color: var(--primary-color);
+    left: 4vw;
 }
 
 .section-title-text {
     display: block;
-    font-size: 40px;
+    font-size: 2.3vw;
     font-weight: 500;
+    letter-spacing: 0.1rem;
     text-transform: uppercase;
     transform-origin: left; /* set origin for text*/
     transform: skewY(25deg);
     z-index: 5; /* bring text forward*/
-    color: var(--accent-color);
+    color: var(--first-accent-color);
 }
 
 .styleOne,
@@ -162,34 +280,39 @@ SECTIONS
 .styleThree {
     position: absolute;
     display: block;
-    width: 100%;
-    max-width: 278px;
-    height: 60px;
-    border: 1px solid var(--accent-color);
+    /* Length of geometric shape */
+    width: 15vw;
+    /* Thickness of geometric shape */
+    height: 6vh;
+    /* Thickness of outlines */
+    border: 1px solid var(--first-accent-color);
     transform-origin: left; /* set origin for text*/
     transform: skewY(-25deg);
 }
 
+/* Position of first (top) geometric shape outline */
 .styleOne {
-    top: 0px;
+    top: 0vh;
 }
 
+/* Position of second (bottom) geometric shape outline */
 .styleTwo {
-    top: 80px;
+    top: 7.5vh;
 }
 
+/* Position of front (bottom) geometric shape fill-in */
 .styleThree {
-    top: 80px;
+    top: 7.5vh;
     transform: skewY(25deg);
-    background-color: var(--accent-color);
+    background-color: var(--first-accent-color);
 }
 
 .section-number {
     position: absolute;
-    bottom: 15px;
+    bottom: 2vh;
     right: 0;
-    color: var(--accent-color);
-    font-size: 24px;
+    color: var(--first-accent-color);
+    font-size: 1.3vw;
 }
 
 /*---
@@ -203,34 +326,36 @@ HERO
 .hero-wrapper {
     position: relative;
     height: 100%;
-    /* width: calc(100% - 160px); */
-    width: 100%;
+    width: calc(100% - 18vw);
     margin: 0 auto;
-    max-width: 1500px;
+}
+
+.intro-text {
+    font-size: 2.5vw;
 }
 
 .hero-main {
     position: absolute;
-    top: calc(50% - 210px);
-    left: 280px;
+    top: calc(50% - 28vh);
+    left: 14vw;
 }
 
 .hero-second {
     position: absolute;
-    bottom: 180px;
-    right: 240px;
+    bottom: calc(50% - 31vh);
+    right: 11vw;
 }
 
 .hero-main-title {
-    font-size: 64px;
+    font-size: 3.5vw;
 }
 
 .hero-main-description {
-    font-size: 20px;
+    font-size: 1.6vw;
 }
 
 .hero-second-subheading {
-    font-size: 32px;
+    font-size: 2.2vw;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
 }
@@ -261,13 +386,99 @@ SECTION (OTHER COLORS)
 /*---
 MEDIA QUERIES
 ---*/
+/* For mobile */
 @media (max-width: 968px) {
-    .section {
-        width: 100%;
+    /* How far apart preloader texts are from the middle */
+    .hero-wrapper {
+        width: calc(100% - 15vw);
+    }
+    /* Loading screen dots (x3) */
+    .circle {
+        width: 2vw;
+        height: 2vw;
+        margin: 1.3vw;
+    }
+    /* Arrow size */
+    svg {
+        height: 10vh;
+        width: 10vw;
+    }
+    .arrow-svg-wrapper {
+        left: calc(50% - 5vw); /* must account for arrow size */
+    }
+    .intro-text {
+        font-size: 8vw;
+    }
+    .hero-main {
+        top: calc(50% - 22vh);
+        left: 0vw;
+    }
+    .hero-second {
+        right: 0vw;
+        text-align: right;
+    }
+    .hero-main-title {
+        font-size: 8vw;
+        margin-bottom: 0.6vh;
+    }
+    .hero-main-description {
+        font-size: 4.3vw;
+    }
+    .hero-second-subheading {
+        font-size: 5.5vw;
+    }
+    .first-sub {
+        margin-bottom: 0.3vh;
     }
     /* Make all progress bars appear left */
     .progress-bar-wrapper-left {
         left: auto; /* Overrides setting for desktop */
         right: 0;
+    }
+    /* Spacing before geometric header */
+    .section {
+        width: 100%;
+        padding: 110vh 4.5%;
+    }
+    /* Text in geometric header */
+    .section-title-text {
+        font-size: 8vw;
+    }
+    /* Spacing between geometric header and section divider */
+    .section-intro-wrapper {
+        padding-bottom: 45vh;
+    }
+    /* Spacing around section header & text */
+    .section-detail-wrapper {
+        padding: 0% 5%;
+    }
+    .section-heading {
+        font-size: 5.5vw;
+        margin-top: 9.5vh;
+    }
+    .section-text {
+        line-height: 3.3vh;
+        margin-top: 2.5vh;
+        font-size: 4.3vw;
+    }
+    /* Geometric header shape */
+    .styleOne,
+    .styleTwo,
+    .styleThree {
+        /* Length of geometric shape */
+        width: 55vw;
+    }
+    /* Position of second (bottom) geometric shape outline */
+    .styleTwo {
+        top: 8vh;
+    }
+    /* Position of front (bottom) geometric shape fill-in */
+    .styleThree {
+        top: 8vh;
+    }
+    /* Section number size */
+    .section-number {
+        bottom: 3vh;
+        font-size: 5vw;
     }
 }

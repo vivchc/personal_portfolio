@@ -10,11 +10,36 @@
         <div class="experience">
             <canvas class="experience-canvas"></canvas>
         </div>
+        <!--Preloader loading screen (3 circles)-->
+        <div class="preloader">
+            <div class="preloader-wrapper">
+                <div class="loading">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+
         <!--Implement smooth scrolling-->
         <div class="page" asscroll-container>
             <div class="page-wrapper" asscroll>
                 <section class="hero">
                     <div class="hero-wrapper">
+                        <!--INTRO-->
+                        <div class="arrow-svg-wrapper">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 -960 960 960"
+                            >
+                                <path
+                                    color="currentColor"
+                                    d="M480-345 240-585l47.333-47.333L480-438.999l192.667-192.667L720-584.333 480-345Z"
+                                />
+                            </svg>
+                        </div>
+                        <!--Separate divs into spans for preloader text-->
+                        <div class="intro-text">Hi, I'm Viann.</div>
                         <div class="hero-main">
                             <h1 class="hero-main-title">Viann Cheng</h1>
                             <p class="hero-main-description">
@@ -22,8 +47,10 @@
                             </p>
                         </div>
                         <div class="hero-second">
-                            <p class="hero-second-subheading">Personal</p>
-                            <p class="hero-second-subheading">
+                            <p class="hero-second-subheading first-sub">
+                                Personal
+                            </p>
+                            <p class="hero-second-subheading second-sub">
                                 &emsp;Portfolio
                             </p>
                         </div>
@@ -36,7 +63,6 @@
                     <!--Progress bar-->
                     <div class="progress-wrapper progress-bar-wrapper-left">
                         <div class="progress-bar"></div>
-                        <!--note: do we need to set color for progress wrapper-->
                     </div>
 
                     <div class="section-intro-wrapper">
@@ -64,6 +90,7 @@
                             deserunt nihil praesentium dignissimos modi hic!
                             Quam, nostrum assumenda?
                         </p>
+                        <h3 class="section-heading">Lorem Ipsum</h3>
                         <p class="section-text">
                             Lorem ipsum dolor sit, amet consectetur adipisicing
                             elit. Perspiciatis quisquam corrupti temporibus
@@ -147,7 +174,7 @@
                     <div class="section-intro-wrapper blue-text blue-border">
                         <h1 class="section-title blue-text blue-border">
                             <span class="section-title-text blue-text">
-                                Contact Me
+                                Contact
                             </span>
                             <div
                                 class="section-title-decoration styleOne blue-border"
