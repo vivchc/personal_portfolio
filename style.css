@@ -180,30 +180,28 @@ SECTIONS
     padding: 142vh 4%;
     margin: 0;
     background-color: var(--primary-color);
-    /* note: commented because cuts off geometric header */
-    /* overflow: hidden; */
+    overflow: hidden; /* prevents progress bar from extending beyond section*/
 }
 
 .left {
     margin-right: auto;
     /* Round out section edges */
     border-top-right-radius: 91vw 91vw;
-    border-bottom-right-radius: 0px 0px;
+    border-bottom-right-radius: 0vw 0vw;
 }
 
 .right {
     margin-left: auto;
     /* Round out section edges */
     border-top-left-radius: 91vw 91vw;
-    border-bottom-left-radius: 0px 0px;
+    border-bottom-left-radius: 0vw 0vw;
 }
 
 /* Progress bar */
 .progress-wrapper {
     height: 0;
-    /* note: change width to responsive units */
-    width: 12px;
-    z-index: 9999;
+    width: 1.6vh;
+    z-index: 99999;
 }
 
 .progress-bar-wrapper-left {
@@ -330,7 +328,7 @@ HERO
 }
 
 .intro-text {
-    font-size: 2.5vw;
+    font-size: 4vh;
 }
 
 .hero-main {
@@ -406,7 +404,7 @@ MEDIA QUERIES
         left: calc(50% - 5vw); /* must account for arrow size */
     }
     .intro-text {
-        font-size: 8vw;
+        font-size: 3vh;
     }
     .hero-main {
         top: calc(50% - 22vh);
@@ -433,6 +431,9 @@ MEDIA QUERIES
     .progress-bar-wrapper-left {
         left: auto; /* Overrides setting for desktop */
         right: 0;
+    }
+    .progress-wrapper {
+        width: 1.1vh;
     }
     /* Spacing before geometric header */
     .section {

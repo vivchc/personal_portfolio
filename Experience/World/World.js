@@ -24,7 +24,7 @@ export default class World extends EventEmitter {
             // Floor must come before Room; Controls init. circles from Floor
             this.floor = new Floor();
             this.room = new Room();
-            this.controls = new Controls();
+            // this.controls = new Controls();
             this.emit('world loaded');
         });
     }

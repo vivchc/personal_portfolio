@@ -93,6 +93,7 @@ export default class Controls extends EventEmitter {
             '(min-width: 969px)': () => {
                 //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.2, 4.5, 6.5);
+                // Final room model size
                 this.actualRoom.scale.set(0.8, 0.8, 0.8);
 
                 //---FIRST SECTION---
@@ -212,6 +213,7 @@ export default class Controls extends EventEmitter {
             '(max-width: 968px)': () => {
                 //---LANDING PAGE---
                 this.camera.orthographicCamera.position.set(-0.04, 4, 6.5);
+                // Final room model size
                 this.actualRoom.scale.set(0.45, 0.45, 0.45);
 
                 //---FIRST SECTION (MOBILE)----

@@ -71,7 +71,12 @@ export default class Preloader extends EventEmitter {
                     });
             } else {
                 // Device is mobile
-                this.roomChildren.cup_for_intro.position.set(-0.0026, -0.27, 2);
+                // Center preloader cup
+                // this.roomChildren.cup_for_intro.position.set(
+                //     -0.2,
+                //     -0.27,
+                //     0.120295
+                // );
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
                         x: 7,
@@ -498,6 +503,16 @@ export default class Preloader extends EventEmitter {
                     )
 
                     //---Spin, scale, center preloader cup---
+                    // Ortho. camera position from Controls.js mobile landing page
+                    .to(
+                        this.camera.orthographicCamera.position,
+                        {
+                            x: -0.04,
+                            y: 4,
+                            z: 6.5
+                        },
+                        'spin_cup_room'
+                    )
                     // Reset orthographic camera rotation
                     .to(
                         this.camera.orthographicCamera.rotation,
@@ -922,7 +937,11 @@ export default class Preloader extends EventEmitter {
         if (this.device === 'desktop') {
             this.roomChildren.cup_for_intro.scale.set(5, 5, 5);
         } else {
-            this.roomChildren.cup_for_intro.scale.set(7, 7, 7); // for mobile
+            // for mobile
+            this.room.scale.set(0.45, 0.45, 0.45);
+            this.roomChildren.cup_for_intro.scale.set(7, 7, 7);
+            // Center preloader cup to loading dots
+            this.camera.orthographicCamera.position.set(0, 4.55, 6.5);
         }
     }
 
