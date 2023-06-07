@@ -252,6 +252,9 @@ SECTIONS
     font-size: 0.9vw;
 }
 
+.copyright {
+    color: var(--copyright-color);
+}
 /*---
 3D SHAPE SECTION GRAPHIC
 ---*/
@@ -486,10 +489,6 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
     transform-origin: bottom left;
 }
 
-.copyright {
-    color: var(--copyright-color);
-}
-
 /*---
 MEDIA QUERIES
 ---*/
@@ -590,5 +589,32 @@ MEDIA QUERIES
     .section-number {
         bottom: 3vh;
         font-size: 5vw;
+    }
+    /*---Button links---*/
+    #linkedin.button {
+        margin-top: 6vh;
+    }
+    /* Button text */
+    .button span {
+        font-size: 2vh;
+    }
+    /* Button arrow */
+    .button svg {
+        height: 1.4vh;
+        width: 5vw;
+        transform: translateX(0);
+    }
+    /* Make underline visible; mobile has no hover */
+    .hover-underline-animation:after {
+        transform: scaleX(1);
+    }
+    #github.hover-underline-animation:after {
+        width: 105%;
+    }
+    #email.hover-underline-animation:after {
+        width: 106%;
+    }
+    #linkedin.hover-underline-animation:after {
+        width: 113%;
     }
 }
