@@ -591,9 +591,6 @@ MEDIA QUERIES
         font-size: 5vw;
     }
     /*---Button links---*/
-    #linkedin.button {
-        margin-top: 6vh;
-    }
     /* Button text */
     .button span {
         font-size: 2vh;
