@@ -53,7 +53,6 @@ export default class Preloader extends EventEmitter {
             });
 
             //===ANIMATE PRELOADER CUP===
-            // Different preloader animations for desktop/mobile
             if (this.device === 'desktop') {
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
@@ -71,12 +70,6 @@ export default class Preloader extends EventEmitter {
                     });
             } else {
                 // Device is mobile
-                // Center preloader cup
-                // this.roomChildren.cup_for_intro.position.set(
-                //     -0.2,
-                //     -0.27,
-                //     0.120295
-                // );
                 this.firstTimeline
                     .to(this.roomChildren.cup_for_intro.scale, {
                         x: 7,
@@ -482,6 +475,7 @@ export default class Preloader extends EventEmitter {
                         onComplete: resolve // signals end of animation
                     });
             } else {
+                // Device is mobile
                 this.secondTimeline
                     // Animate preloader text
                     .to(

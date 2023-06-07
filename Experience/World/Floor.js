@@ -14,6 +14,7 @@ export default class Floor {
         // Create plane (this is the background during preloader)
         this.geometry = new THREE.PlaneGeometry(100, 100);
         this.material = new THREE.MeshStandardMaterial({
+            // note: color of overall background for site
             color: '#cceaed',
             side: THREE.DoubleSide // show material on both sides of plane
         });
