@@ -10,8 +10,13 @@ export default class Room {
         this.resources = this.experience.resources;
         this.time = this.experience.time;
         // Grab loaded assets from Resources
-        this.room = this.resources.items.room;
+        this.room = this.resources.items.room; // note: directly grabbing room loaded from Resources.js
         this.actualRoom = this.room.scene;
+
+        // Store all children in Room for later reference
+        this.roomChildren = {};
+        // Store x, y, z scale values for children in Room
+        this.roomChildrenScale = {};
 
         // lerp = linear interpolation, makes camera movement smoother
         this.lerp = {
@@ -29,14 +34,13 @@ export default class Room {
     setModel() {
         // Set shadows for each child of the room model
         this.actualRoom.children.forEach((roomChild) => {
-            // Child is empty obj. holding groups and meshes
             if (roomChild.type === 'Object3D') {
-                // Loop through children, see if group or mesh
+                // Child is empty obj. holding groups and meshes; loop through children
                 roomChild.children.forEach((e) => {
                     this.castShadow(e);
                 });
             } else {
-                // Child is group or mesh
+                // Child is already group or mesh
                 this.castShadow(roomChild);
             }
 
@@ -79,18 +83,66 @@ export default class Room {
                 });
             }
 
-            // Initialize starting position for objects within mailbox platform for animation later
-            if (roomChild.name === 'mailbox') {
-                roomChild.children.forEach((e) => {
-                    if (e.name.includes('floor')) {
-                        // Set mailbox platform floor in hidden position. Trial&error to find positions.
-                        e.position.x = 5.5;
-                        e.position.z = -5.5; // equi. to y in Blender
-                    } else {
-                        // All other objects
-                        e.scale.set(0, 0, 0);
+            // Load cup for preloader
+            if (roomChild.name === 'cup_for_intro') {
+                // Initial size
+                roomChild.scale.set(3, 3, 3);
+                // Lower y-position so cup is near its shadow, x=
+                roomChild.position.set(-0.0026, -0.27, 0.120295);
+                // Rotate cup so handle is left and right-side up
+                roomChild.rotation.z = -Math.PI / 2;
+                roomChild.rotation.x = -1.5 * Math.PI;
+            }
+
+            // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
+            this.roomChildren[roomChild.name] = roomChild;
+            if (
+                roomChild.name != 'cup_for_intro' &&
+                roomChild.name != 'room_window' &&
+                roomChild.children.length > 0
+            ) {
+                // roomChild has children; put each into roomChildren
+                roomChild.children.forEach((child) => {
+                    // Rename asset name; cannot start with numbers
+                    child.name = child.name.substring(2);
+
+                    // Save original scale values. Scale object not iterable; set each to float.
+                    this.roomChildrenScale[child.name] = [
+                        parseFloat(child.scale.x),
+                        parseFloat(child.scale.y),
+                        parseFloat(child.scale.z)
+                    ];
+
+                    // Move position for mailbox_floor
+                    if (child.name.includes('mailbox_floor')) {
+                        // Save initial position with scale
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.x)
+                        );
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.y)
+                        );
+                        this.roomChildrenScale[child.name].push(
+                            parseFloat(child.position.z)
+                        );
+
+                        // Set mailbox platform floor in hidden position. Found via trial&error.
+                        child.position.x = 5.5;
+                        child.position.z = -5.5; // equi. to y in Blender
                     }
+                    // Hide room object
+                    child.scale.set(0, 0, 0);
                 });
+            } else {
+                // roomChild has NO children; put directly into roomChildren
+                // Save original scale values. Scale object not iterable; set each to float.
+                this.roomChildrenScale[roomChild.name] = [
+                    parseFloat(roomChild.scale.x),
+                    parseFloat(roomChild.scale.y),
+                    parseFloat(roomChild.scale.z)
+                ];
+                // Hide room object
+                roomChild.scale.set(0, 0, 0);
             }
         });
 
@@ -145,7 +197,7 @@ export default class Room {
             this.lerp.target,
             this.lerp.ease
         );
-        // Rotate room based on cursor location
+        // Rotate room vertically based on cursor location
         this.actualRoom.rotation.y = this.lerp.current;
         // Set animation speed (larger value = faster)
         this.mixer.update(this.time.delta * 0.0008);

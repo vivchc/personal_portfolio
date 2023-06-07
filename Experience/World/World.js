@@ -5,7 +5,7 @@ import Experience from '../Experience';
 import Environment from './Environment';
 
 import Room from './Room';
-import Controls from './Controls';
+import Controls from '../Controls';
 import Floor from './Floor';
 
 export default class World extends EventEmitter {
@@ -21,9 +21,10 @@ export default class World extends EventEmitter {
         // Creates our room model when resources all loaded
         this.resources.on('ready', () => {
             this.environment = new Environment();
-            this.room = new Room();
+            // Floor must come before Room; Controls init. circles from Floor
             this.floor = new Floor();
-            this.controls = new Controls();
+            this.room = new Room();
+            // this.controls = new Controls();
             this.emit('world loaded');
         });
     }

@@ -13,6 +13,7 @@ import World from './World/World';
 import Camera from './Camera';
 import Renderer from './Renderer';
 import Preloader from './Preloader';
+import Controls from './Controls';
 
 export default class Experience {
     static instance;
@@ -28,8 +29,12 @@ export default class Experience {
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.resources = new Resources(assets);
-        this.world = new World(); // order matters, must be called after everything
+        this.world = new World(); // order matters; only call after everything loads for World
         this.preloader = new Preloader();
+
+        this.preloader.on('enablecontrols', () => {
+            this.controls = new Controls();
+        });
 
         // Updates other classes' update functions when SIZE updates
         this.sizes.on('resize', () => {
@@ -50,6 +55,7 @@ export default class Experience {
 
     // Update functions from other classes
     update() {
+        this.preloader.update();
         this.camera.update();
         this.world.update();
         this.renderer.update();
