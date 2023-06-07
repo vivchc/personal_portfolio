@@ -25,6 +25,7 @@ body {
     --first-accent-color: #00bcb9;
     --second-accent-color: #d88c91;
     --third-accent-color: #75b5db;
+    --copyright-color: #328ec3; /* bit darker than third accent color */
 }
 
 /*---
@@ -483,6 +484,10 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
 .button:hover .hover-underline-animation:after {
     transform: scaleX(1);
     transform-origin: bottom left;
+}
+
+.copyright {
+    color: var(--copyright-color);
 }
 
 /*---
