@@ -28,7 +28,7 @@ export default class Environment {
         this.sunLight.target = this.sunLightPoint;
         this.scene.add(this.sunLight);
 
-        // note: Help visualize directional light
+        // note: Helps visualize directional light
         // const helper = new THREE.CameraHelper(this.sunLight.shadow.camera);
         // this.scene.add(helper);
 

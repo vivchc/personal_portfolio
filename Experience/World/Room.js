@@ -10,7 +10,7 @@ export default class Room {
         this.resources = this.experience.resources;
         this.time = this.experience.time;
         // Grab loaded assets from Resources
-        this.room = this.resources.items.room; // note: directly grabbing room loaded from Resources.js
+        this.room = this.resources.items.room;
         this.actualRoom = this.room.scene;
 
         // Store all children in Room for later reference
