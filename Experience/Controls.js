@@ -30,8 +30,7 @@ export default class Controls extends EventEmitter {
         // Register plugin
         GSAP.registerPlugin(ScrollTrigger);
 
-        // Make touch scrolling in mobile. Reenables overflow because hidden in style.css
-        // note: Needed because of assScroll or gsap
+        // Make touch scrolling in mobile. Reenables overflow because hidden in style.css. Needed because of assScroll or gsap.
         document.querySelector('.page').style.overflow = 'visible';
 
         this.setSmoothScroll();
@@ -101,7 +100,6 @@ export default class Controls extends EventEmitter {
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
-                        // note: comment start/end markers in Controls.js, then comment all markers when done
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
@@ -382,7 +380,6 @@ export default class Controls extends EventEmitter {
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: '.first-scrollTrigger',
-                        // note: comment start/end markers in Controls.js, then comment all markers when done
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll

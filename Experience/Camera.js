@@ -11,7 +11,7 @@ export default class Camera {
 
         this.createPerspectiveCamera();
         this.createOrthographicCamera();
-        this.setOrbitControls();
+        this.setOrbitControls(); // keep this or site breaks
     }
 
     createPerspectiveCamera() {
@@ -83,8 +83,6 @@ export default class Camera {
             (this.sizes.aspect * this.sizes.frustrum) / 2;
         this.orthographicCamera.top = this.sizes.frustrum / 2;
         this.orthographicCamera.bottom = -this.sizes.frustrum / 2;
-        // this.orthographicCamera.near = this.sizes.frustrum / 2;
-        // this.orthographicCamera.far = this.sizes.frustrum / 2;
         this.orthographicCamera.updateProjectionMatrix();
     }
 
