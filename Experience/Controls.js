@@ -66,8 +66,8 @@ export default class Controls extends EventEmitter {
                     width: window.innerWidth,
                     height: window.innerHeight
                 };
-            },
-            fixedMarkers: true
+            }
+            // fixed markers: true
         });
 
         asscroll.on('update', ScrollTrigger.update);
@@ -105,8 +105,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -163,8 +163,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -197,8 +197,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -223,8 +223,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -257,8 +257,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -292,8 +292,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 })
                     // Relative to last ortho. camera position
@@ -322,8 +322,8 @@ export default class Controls extends EventEmitter {
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
                                 end: 'top top',
-                                scrub: 0.8,
-                                markers: true
+                                scrub: 0.8
+                                // markers: true
                             }
                         });
                         GSAP.to(section, {
@@ -332,8 +332,8 @@ export default class Controls extends EventEmitter {
                                 trigger: section,
                                 start: 'bottom bottom',
                                 end: 'bottom top',
-                                scrub: 0.8,
-                                markers: true
+                                scrub: 0.8
+                                // markers: true
                             }
                         });
                     } else if (section.classList.contains('left')) {
@@ -345,8 +345,8 @@ export default class Controls extends EventEmitter {
                                 start: 'top bottom',
                                 // When top of section hits top of viewport
                                 end: 'top top',
-                                scrub: 0.8,
-                                markers: true
+                                scrub: 0.8
+                                // markers: true
                             }
                         });
                         GSAP.to(section, {
@@ -357,8 +357,8 @@ export default class Controls extends EventEmitter {
                                 start: 'bottom bottom',
                                 // When bottom of trigger gits top of viewport
                                 end: 'bottom top',
-                                scrub: 0.8,
-                                markers: true
+                                scrub: 0.8
+                                // markers: true
                             }
                         });
                     }
@@ -386,8 +386,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 }).to(this.circle1.scale, {
                     x: 3,
@@ -402,8 +402,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 }).to(this.circle2.scale, {
                     x: 3,
@@ -418,8 +418,8 @@ export default class Controls extends EventEmitter {
                         start: 'top top',
                         end: 'bottom bottom',
                         scrub: 1, // animates with scroll
-                        invalidateOnRefresh: true,
-                        markers: true
+                        invalidateOnRefresh: true
+                        // markers: true
                     }
                 }).to(this.circle3.scale, {
                     x: 3,
