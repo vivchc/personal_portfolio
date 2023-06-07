@@ -381,65 +381,106 @@ SECTION (OTHER COLORS)
 }
 
 /*---
-BUTTON (FROM 2ND SECTION)
+BUTTONS (FOR 2ND, 3RD SECTIONS)
 ---*/
-.cta {
+.button {
     border: none;
     background: none;
     margin-top: 9.5vh;
     cursor: pointer;
 }
 
+#linkedin.button {
+    margin-top: 6vh;
+}
+
 /* Button text */
-.cta span {
+.button span {
     letter-spacing: 0.2em;
     font-size: 1.1vw;
     font-weight: 500;
     /* Padding at end of button text */
     padding-right: 0.8vw;
     text-transform: uppercase;
+}
+
+#github.button span {
     color: var(--second-accent-color);
 }
 
+#email.button span,
+#linkedin.button span {
+    color: var(--third-accent-color);
+}
+
 /* Button arrow */
-.cta svg {
+.button svg {
     height: 1.4vh;
     width: 2vw;
-    color: var(--second-accent-color);
     transform: translateX(-0.6em);
     transition: all 0.3s ease;
 }
 
-.cta:hover svg {
+#github.button svg {
+    color: var(--second-accent-color);
+}
+
+#email.button svg,
+#linkedin.button svg {
+    color: var(--third-accent-color);
+}
+
+.button:hover svg {
     transform: translateX(0);
 }
 
-.cta:active svg {
+.button:active svg {
     transform: scale(0.9);
 }
 
+/* Underline animation on hover */
 .hover-underline-animation {
     position: relative;
-    color: var(--second-accent-color);
     /* Padding from button text */
     padding-bottom: 0.5em;
+}
+
+#github.hover-underline-animation {
+    color: var(--second-accent-color);
+}
+
+#email.hover-underline-animation,
+#linkedin.hover-underline-animation {
+    color: var(--third-accent-color);
 }
 
 .hover-underline-animation:after {
     content: '';
     position: absolute;
-    width: 130%;
+    width: 109%;
     transform: scaleX(0);
     /* Thickness of underline */
     height: 0.15em;
     bottom: 0;
     left: 0;
-    background-color: var(--second-accent-color);
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
 }
 
-.cta:hover .hover-underline-animation:after {
+#github.hover-underline-animation:after {
+    background-color: var(--second-accent-color);
+}
+
+#email.hover-underline-animation:after {
+    background-color: var(--third-accent-color);
+}
+
+#linkedin.hover-underline-animation:after {
+    width: 120%;
+    background-color: var(--third-accent-color);
+}
+
+.button:hover .hover-underline-animation:after {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
