@@ -96,59 +96,114 @@ export default class Room {
 
             // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
             this.roomChildren[roomChild.name] = roomChild;
-            if (
-                roomChild.name != 'cup_for_intro' &&
-                roomChild.name != 'room_window' &&
-                roomChild.children.length > 0
-            ) {
-                // roomChild has children; put each into roomChildren
-                roomChild.children.forEach((child) => {
-                    // Rename asset name; cannot start with numbers
-                    child.name = child.name.substring(2);
 
-                    // Save original scale values. Scale object not iterable; set each to float.
-                    this.roomChildrenScale[child.name] = [
-                        parseFloat(child.scale.x),
-                        parseFloat(child.scale.y),
-                        parseFloat(child.scale.z)
-                    ];
+            // Saves original scale values then hides room object
+            this.setAndSaveScale(roomChild);
 
-                    // Move position for mailbox_floor
-                    if (child.name.includes('mailbox_floor')) {
-                        // Save initial position with scale
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.x)
-                        );
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.y)
-                        );
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.z)
-                        );
+            // if (
+            //     roomChild.name != 'cup_for_intro' &&
+            //     roomChild.name != 'room_window' &&
+            //     roomChild.children.length > 0
+            // ) {
+            //     // roomChild has children; put each into roomChildren
+            //     roomChild.children.forEach((child) => {
+            //         // Rename asset name; cannot start with numbers
+            //         child.name = child.name.substring(2);
 
-                        // Set mailbox platform floor in hidden position. Found via trial&error.
-                        child.position.x = 5.5;
-                        child.position.z = -5.5; // equi. to y in Blender
-                    }
-                    // Hide room object
-                    child.scale.set(0, 0, 0);
-                });
-            } else {
-                // roomChild has NO children; put directly into roomChildren
-                // Save original scale values. Scale object not iterable; set each to float.
-                this.roomChildrenScale[roomChild.name] = [
-                    parseFloat(roomChild.scale.x),
-                    parseFloat(roomChild.scale.y),
-                    parseFloat(roomChild.scale.z)
-                ];
-                // Hide room object
-                roomChild.scale.set(0, 0, 0);
-            }
+            //         // Save original scale values. Scale object not iterable; set each to float.
+            //         this.roomChildrenScale[child.name] = [
+            //             parseFloat(child.scale.x),
+            //             parseFloat(child.scale.y),
+            //             parseFloat(child.scale.z)
+            //         ];
+
+            //         // Move position for mailbox_floor
+            //         if (child.name.includes('mailbox_floor')) {
+            //             // Save initial position with scale
+            //             this.roomChildrenScale[child.name].push(
+            //                 parseFloat(child.position.x)
+            //             );
+            //             this.roomChildrenScale[child.name].push(
+            //                 parseFloat(child.position.y)
+            //             );
+            //             this.roomChildrenScale[child.name].push(
+            //                 parseFloat(child.position.z)
+            //             );
+
+            //             // Set mailbox platform floor in hidden position. Found via trial&error.
+            //             child.position.x = 5.5;
+            //             child.position.z = -5.5; // equi. to y in Blender
+            //         }
+            //         // Hide room object
+            //         child.scale.set(0, 0, 0);
+            //     });
+            // } else {
+            //     // roomChild has NO children; put directly into roomChildren
+            //     // Save original scale values. Scale object not iterable; set each to float.
+            //     this.roomChildrenScale[roomChild.name] = [
+            //         parseFloat(roomChild.scale.x),
+            //         parseFloat(roomChild.scale.y),
+            //         parseFloat(roomChild.scale.z)
+            //     ];
+            //     // Hide room object
+            //     roomChild.scale.set(0, 0, 0);
+            // }
         });
 
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
         this.scene.add(this.actualRoom);
+    }
+
+    setAndSaveScale(roomChild) {
+        if (
+            roomChild.name != 'cup_for_intro' &&
+            roomChild.name != 'room_window' &&
+            roomChild.children.length > 0
+        ) {
+            // roomChild has children
+            roomChild.children.forEach((child) => {
+                // Rename asset name; cannot start with numbers
+                child.name = child.name.substring(2);
+
+                // Save original scale values. Scale object not iterable; set each to float.
+                this.roomChildrenScale[child.name] = [
+                    parseFloat(child.scale.x),
+                    parseFloat(child.scale.y),
+                    parseFloat(child.scale.z)
+                ];
+
+                // Move position for mailbox_floor
+                if (child.name.includes('mailbox_floor')) {
+                    // Save initial position with scale
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.x)
+                    );
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.y)
+                    );
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.z)
+                    );
+
+                    // Set mailbox platform floor in hidden position. Found via trial&error.
+                    child.position.x = 5.5;
+                    child.position.z = -5.5; // equi. to y in Blender
+                }
+                // Hide room object
+                child.scale.set(0, 0, 0);
+            });
+        } else {
+            // roomChild has NO children
+            // Save original scale values. Scale object not iterable; set each to float.
+            this.roomChildrenScale[roomChild.name] = [
+                parseFloat(roomChild.scale.x),
+                parseFloat(roomChild.scale.y),
+                parseFloat(roomChild.scale.z)
+            ];
+            // Hide room object
+            roomChild.scale.set(0, 0, 0);
+        }
     }
 
     // Takes in a group or mesh object and cast shadows for them/each
