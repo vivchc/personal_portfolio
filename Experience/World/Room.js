@@ -97,6 +97,9 @@ export default class Room {
             // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
             this.roomChildren[roomChild.name] = roomChild;
 
+            // Sets the color for each room object
+            this.changeColor(roomChild); // note: unhide this to use new colors
+
             // Saves original scale values then hides room object
             this.setAndSaveScale(roomChild);
         });
@@ -104,6 +107,47 @@ export default class Room {
         // Scale room model to 2 square units on GridHelper
         this.actualRoom.scale.set(0.8, 0.8, 0.8);
         this.scene.add(this.actualRoom);
+    }
+
+    // Takes in a group or mesh object and cast shadows for them/each
+    castShadow(obj) {
+        if (obj.type === 'Group') {
+            // Loop through group children
+            obj.children.forEach((groupChild) => {
+                // Cast shadow for each group child
+                groupChild.castShadow = true;
+                groupChild.receiveShadow = true;
+            });
+        } else {
+            // Is a mesh; directly cast shadow
+            obj.castShadow = true;
+            obj.receiveShadow = true;
+        }
+    }
+
+    // Helper; sets the color for each room object
+    changeColor(roomChild) {
+        if (roomChild.children.length > 0) {
+            // roomChild is a primary group (eg. desk)
+
+            roomChild.children.forEach((primary) => {
+                // child is a secondary group (eg. desk_legs)
+
+                if (primary.children.length > 0) {
+                    // roomChild is a primary group (eg. desk)
+
+                    primary.children.forEach((secondary) => {
+                        secondary.material.color.set('#ffffff'); // lower L
+                    });
+                } else {
+                    primary.material.color.set('#ffffff'); // lower L
+                }
+            });
+        } else {
+            // roomChild has NO children
+
+            roomChild.material.color.set('#B64CBB');
+        }
     }
 
     // Helper; saves the original scale into this.roomChildrenScale for each room object then hides it
@@ -155,22 +199,6 @@ export default class Room {
             ];
             // Hide room object
             roomChild.scale.set(0, 0, 0);
-        }
-    }
-
-    // Takes in a group or mesh object and cast shadows for them/each
-    castShadow(obj) {
-        if (obj.type === 'Group') {
-            // Loop through group children
-            obj.children.forEach((groupChild) => {
-                // Cast shadow for each group child
-                groupChild.castShadow = true;
-                groupChild.receiveShadow = true;
-            });
-        } else {
-            // Is a mesh; directly cast shadow
-            obj.castShadow = true;
-            obj.receiveShadow = true;
         }
     }
 
