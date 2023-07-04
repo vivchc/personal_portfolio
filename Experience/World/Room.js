@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import GSAP from 'gsap';
 import time from '../Utils/Time';
 import Experience from '../Experience';
+import changeColor from '../Utils/setColorForObjects';
 
 export default class Room {
     constructor() {
@@ -73,9 +74,9 @@ export default class Room {
                 roomChild.children.forEach((child) => {
                     if (child.name.includes('laptop')) {
                         child.children.forEach((e) => {
-                            if (e.material.name === 'screen') {
+                            if (e.material.name === 'laptop_display') {
                                 e.material = new THREE.MeshBasicMaterial({
-                                    map: this.resources.items.laptop_screen
+                                    map: this.resources.items.laptop_disgiplay
                                 });
                             }
                         });
@@ -98,7 +99,7 @@ export default class Room {
             this.roomChildren[roomChild.name] = roomChild;
 
             // Sets the color for each room object
-            this.changeColor(roomChild); // note: unhide this to use new colors
+            changeColor(roomChild);
 
             // Saves original scale values then hides room object
             this.setAndSaveScale(roomChild);
@@ -122,31 +123,6 @@ export default class Room {
             // Is a mesh; directly cast shadow
             obj.castShadow = true;
             obj.receiveShadow = true;
-        }
-    }
-
-    // Helper; sets the color for each room object
-    changeColor(roomChild) {
-        if (roomChild.children.length > 0) {
-            // roomChild is a primary group (eg. desk)
-
-            roomChild.children.forEach((primary) => {
-                // child is a secondary group (eg. desk_legs)
-
-                if (primary.children.length > 0) {
-                    // roomChild is a primary group (eg. desk)
-
-                    primary.children.forEach((secondary) => {
-                        secondary.material.color.set('#ffffff'); // lower L
-                    });
-                } else {
-                    primary.material.color.set('#ffffff'); // lower L
-                }
-            });
-        } else {
-            // roomChild has NO children
-
-            roomChild.material.color.set('#B64CBB');
         }
     }
 

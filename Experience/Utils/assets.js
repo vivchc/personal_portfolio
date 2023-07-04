@@ -7,7 +7,7 @@ export default [
         path: '/models/ROOM.glb'
     },
     {
-        name: 'laptop_screen',
+        name: 'laptop_display',
         type: 'videoTexture',
         path: '/textures/coding.mp4'
     }
