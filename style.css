@@ -1,5 +1,6 @@
 /* Font style */
 @import url('https://fonts.googleapis.com/css2?family=Archivo&display=swap');
+@import 'colorTheme.css';
 
 * {
     margin: 0;
@@ -18,14 +19,13 @@ body {
 } */
 
 :root {
-    /* Use a color close to but not exactly black */
-    --floor-color: #e1e8e9; /* not sure why, same color doesn't appear as in Floor */
-    --text-black: #30323d;
-    --primary-color: #e6decd;
-    --first-accent-color: #00bcb9;
-    --second-accent-color: #d88c91;
-    --third-accent-color: #75b5db;
-    --copyright-color: #328ec3; /* bit darker than third accent color */
+    /* Colors aren't adjusted for light */
+    --floor-color: var(--BGCOLOR); /* bg color for loading screen with 3 dots */
+    --loading-dots: var(--tan);
+    --section_bg: var(--SECTION-BG);
+    --first-section-color: var(--GREEN);
+    --second-section-color: var(--MUTED-ORANGE);
+    --third-section-color: var(--BLUE);
 }
 
 /*---
@@ -51,7 +51,7 @@ LOADING SCREEN (3 DOTS)
 }
 
 .preloader {
-    /* Loading screen background */
+    /* Background for loading screen with 3 dots */
     background-color: var(--floor-color);
     width: 100%;
     height: 100vh;
@@ -80,7 +80,7 @@ LOADING SCREEN (3 DOTS)
     border-radius: 50%;
     margin: 0.4vw;
     /* Color of loading dots */
-    background-color: #d0aa84;
+    background-color: var(--loading-dots);
     animation: load 1s ease-in-out infinite;
 }
 
@@ -180,7 +180,7 @@ SECTIONS
     width: 50%;
     padding: 142vh 4%;
     margin: 0;
-    background-color: var(--primary-color);
+    background-color: var(--section_bg);
     overflow: hidden; /* prevents progress bar from extending beyond section*/
 }
 
@@ -220,7 +220,7 @@ SECTIONS
 .progress-bar {
     height: 100vh;
     width: 100%;
-    background-color: var(--first-accent-color);
+    background-color: var(--first-section-color);
     transform-origin: top center;
     transform: scaleY(1);
 }
@@ -229,7 +229,7 @@ SECTIONS
 .section-intro-wrapper {
     position: relative;
     padding: 20% 5%;
-    border-bottom: 2px solid var(--first-accent-color);
+    border-bottom: 2px solid var(--first-section-color);
     padding-bottom: 63vh;
 }
 
@@ -260,7 +260,7 @@ SECTIONS
 ---*/
 .section-title {
     position: absolute;
-    color: var(--primary-color);
+    color: var(--section_bg);
     left: 4vw;
 }
 
@@ -273,7 +273,7 @@ SECTIONS
     transform-origin: left; /* set origin for text*/
     transform: skewY(25deg);
     z-index: 5; /* bring text forward*/
-    color: var(--first-accent-color);
+    color: var(--first-section-color);
 }
 
 .styleOne,
@@ -286,7 +286,7 @@ SECTIONS
     /* Thickness of geometric shape */
     height: 6vh;
     /* Thickness of outlines */
-    border: 1px solid var(--first-accent-color);
+    border: 1px solid var(--first-section-color);
     transform-origin: left; /* set origin for text*/
     transform: skewY(-25deg);
 }
@@ -305,14 +305,14 @@ SECTIONS
 .styleThree {
     top: 7.5vh;
     transform: skewY(25deg);
-    background-color: var(--first-accent-color);
+    background-color: var(--first-section-color);
 }
 
 .section-number {
     position: absolute;
     bottom: 2vh;
     right: 0;
-    color: var(--first-accent-color);
+    color: var(--first-section-color);
     font-size: 1.3vw;
 }
 
@@ -365,23 +365,23 @@ HERO
 SECTION (OTHER COLORS)
 ---*/
 .red-text {
-    color: var(--second-accent-color);
+    color: var(--second-section-color);
 }
 .red-border {
-    border-color: var(--second-accent-color);
+    border-color: var(--second-section-color);
 }
 .red-background {
-    background-color: var(--second-accent-color);
+    background-color: var(--second-section-color);
 }
 
 .blue-text {
-    color: var(--third-accent-color);
+    color: var(--third-section-color);
 }
 .blue-border {
-    border-color: var(--third-accent-color);
+    border-color: var(--third-section-color);
 }
 .blue-background {
-    background-color: var(--third-accent-color);
+    background-color: var(--third-section-color);
 }
 
 /*---
@@ -409,12 +409,12 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
 }
 
 #github.button span {
-    color: var(--second-accent-color);
+    color: var(--second-section-color);
 }
 
 #email.button span,
 #linkedin.button span {
-    color: var(--third-accent-color);
+    color: var(--third-section-color);
 }
 
 /* Button arrow */
@@ -426,12 +426,12 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
 }
 
 #github.button svg {
-    color: var(--second-accent-color);
+    color: var(--second-section-color);
 }
 
 #email.button svg,
 #linkedin.button svg {
-    color: var(--third-accent-color);
+    color: var(--third-section-color);
 }
 
 .button:hover svg {
@@ -450,12 +450,12 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
 }
 
 #github.hover-underline-animation {
-    color: var(--second-accent-color);
+    color: var(--second-section-color);
 }
 
 #email.hover-underline-animation,
 #linkedin.hover-underline-animation {
-    color: var(--third-accent-color);
+    color: var(--third-section-color);
 }
 
 .hover-underline-animation:after {
@@ -472,16 +472,16 @@ BUTTONS (FOR 2ND, 3RD SECTIONS)
 }
 
 #github.hover-underline-animation:after {
-    background-color: var(--second-accent-color);
+    background-color: var(--second-section-color);
 }
 
 #email.hover-underline-animation:after {
-    background-color: var(--third-accent-color);
+    background-color: var(--third-section-color);
 }
 
 #linkedin.hover-underline-animation:after {
     width: 120%;
-    background-color: var(--third-accent-color);
+    background-color: var(--third-section-color);
 }
 
 .button:hover .hover-underline-animation:after {

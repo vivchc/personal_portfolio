@@ -1,0 +1,41 @@
+/* Lists all the hex codes for the color theme */
+:root {
+    /* Colors that stay constant regardless of light */
+    --BLACK: #454c53; /* purplish black */
+    --BGCOLOR: #e8e8e8;
+    --MUTED-ORANGE: #cf9357; /* for second section*/
+    --SECTION-BG: #e6decd; /* main bg for sections */
+
+    /* Actual colors; not adjusted for light */
+    --TAN: #dfdad4;
+    --DARK-TAN: #b4a79f;
+    --BLUE: #61a2cc;
+    --LIGHT-BLUE-GRAY: #b2c1c2;
+    --DARK-BLUE-GRAY: #85a7b3;
+    --GREEN: #648e7d;
+    --YELLOW: #ead198;
+    --ORANGE: #d58c3f;
+    --PINK: #e99d87;
+    --RUST-RED: #d3735b;
+    --RED: #bd301f;
+
+    /* Colors adjusted for light */
+    --tan: #ccbcac;
+    --dark-tan: #766b65;
+    --blue: #3b6597;
+    --light-blue-gray: #768a8c;
+    --dark-blue-gray: #526a75;
+    --green: #3c564b;
+    --yellow: #f2a964;
+    --orange: #b0562b;
+    --pink: #ed6555;
+    --rust-red: #9b4638;
+    --red: #83221b;
+    --floor-circle1: #6a8a7b; /* pale ver of GREEN */
+    --floor-circle2: #996c53; /* pale ver of ORANGE */
+    --floor-circle3: #728aa7; /* pale ver of BLUE */
+
+    /* Misc. */
+    --text-black: #30323d; /* use a color close to but not exactly black */
+    --copyright-color: #3b6597; /* bit darker than third accent color */
+}

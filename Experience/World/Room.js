@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import GSAP from 'gsap';
 import time from '../Utils/Time';
 import Experience from '../Experience';
+import changeColor from '../Utils/setColorForObjects';
 
 export default class Room {
     constructor() {
@@ -73,11 +74,36 @@ export default class Room {
                 roomChild.children.forEach((child) => {
                     if (child.name.includes('laptop')) {
                         child.children.forEach((e) => {
-                            if (e.material.name === 'screen') {
+                            if (e.material.name === 'laptop_display') {
                                 e.material = new THREE.MeshBasicMaterial({
-                                    map: this.resources.items.laptop_screen
+                                    map: this.resources.items.laptop_display
                                 });
                             }
+                        });
+                    }
+                });
+            }
+
+            // Add image as painting on wall
+            if (roomChild.name === 'painting') {
+                var painting_texture = new THREE.TextureLoader().load(
+                    'textures/painting.png'
+                );
+                roomChild.material = new THREE.MeshBasicMaterial({
+                    map: painting_texture
+                });
+            }
+
+            // Add image to whiteboard
+            if (roomChild.name === 'exercise_whiteboard') {
+                roomChild.children.forEach((child) => {
+                    if (child.name.includes('whiteboard')) {
+                        console.log('inside_whiteboard');
+                        var whiteboard_texture = new THREE.TextureLoader().load(
+                            'textures/whiteboard.png'
+                        );
+                        child.material = new THREE.MeshBasicMaterial({
+                            map: whiteboard_texture
                         });
                     }
                 });
@@ -96,54 +122,12 @@ export default class Room {
 
             // Store room objects in roomChildren, scale values in this.roomChildrenScale. Hide all room objects.
             this.roomChildren[roomChild.name] = roomChild;
-            if (
-                roomChild.name != 'cup_for_intro' &&
-                roomChild.name != 'room_window' &&
-                roomChild.children.length > 0
-            ) {
-                // roomChild has children; put each into roomChildren
-                roomChild.children.forEach((child) => {
-                    // Rename asset name; cannot start with numbers
-                    child.name = child.name.substring(2);
 
-                    // Save original scale values. Scale object not iterable; set each to float.
-                    this.roomChildrenScale[child.name] = [
-                        parseFloat(child.scale.x),
-                        parseFloat(child.scale.y),
-                        parseFloat(child.scale.z)
-                    ];
+            // Sets the color for each room object
+            changeColor(roomChild);
 
-                    // Move position for mailbox_floor
-                    if (child.name.includes('mailbox_floor')) {
-                        // Save initial position with scale
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.x)
-                        );
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.y)
-                        );
-                        this.roomChildrenScale[child.name].push(
-                            parseFloat(child.position.z)
-                        );
-
-                        // Set mailbox platform floor in hidden position. Found via trial&error.
-                        child.position.x = 5.5;
-                        child.position.z = -5.5; // equi. to y in Blender
-                    }
-                    // Hide room object
-                    child.scale.set(0, 0, 0);
-                });
-            } else {
-                // roomChild has NO children; put directly into roomChildren
-                // Save original scale values. Scale object not iterable; set each to float.
-                this.roomChildrenScale[roomChild.name] = [
-                    parseFloat(roomChild.scale.x),
-                    parseFloat(roomChild.scale.y),
-                    parseFloat(roomChild.scale.z)
-                ];
-                // Hide room object
-                roomChild.scale.set(0, 0, 0);
-            }
+            // Saves original scale values then hides room object
+            this.setAndSaveScale(roomChild);
         });
 
         // Scale room model to 2 square units on GridHelper
@@ -164,6 +148,58 @@ export default class Room {
             // Is a mesh; directly cast shadow
             obj.castShadow = true;
             obj.receiveShadow = true;
+        }
+    }
+
+    // Helper; saves the original scale into this.roomChildrenScale for each room object then hides it
+    setAndSaveScale(roomChild) {
+        if (
+            roomChild.name != 'cup_for_intro' &&
+            roomChild.name != 'room_window' &&
+            roomChild.children.length > 0
+        ) {
+            // roomChild has children
+            roomChild.children.forEach((child) => {
+                // Rename asset name; cannot start with numbers
+                child.name = child.name.substring(2);
+
+                // Save original scale values. Scale object not iterable; set each to float.
+                this.roomChildrenScale[child.name] = [
+                    parseFloat(child.scale.x),
+                    parseFloat(child.scale.y),
+                    parseFloat(child.scale.z)
+                ];
+
+                // Move position for mailbox_floor
+                if (child.name.includes('mailbox_floor')) {
+                    // Save initial position with scale
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.x)
+                    );
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.y)
+                    );
+                    this.roomChildrenScale[child.name].push(
+                        parseFloat(child.position.z)
+                    );
+
+                    // Set mailbox platform floor in hidden position. Found via trial&error.
+                    child.position.x = 5.5;
+                    child.position.z = -5.5; // equi. to y in Blender
+                }
+                // Hide room object
+                child.scale.set(0, 0, 0);
+            });
+        } else {
+            // roomChild has NO children
+            // Save original scale values. Scale object not iterable; set each to float.
+            this.roomChildrenScale[roomChild.name] = [
+                parseFloat(roomChild.scale.x),
+                parseFloat(roomChild.scale.y),
+                parseFloat(roomChild.scale.z)
+            ];
+            // Hide room object
+            roomChild.scale.set(0, 0, 0);
         }
     }
 
