@@ -76,11 +76,21 @@ export default class Room {
                         child.children.forEach((e) => {
                             if (e.material.name === 'laptop_display') {
                                 e.material = new THREE.MeshBasicMaterial({
-                                    map: this.resources.items.laptop_disgiplay
+                                    map: this.resources.items.laptop_display
                                 });
                             }
                         });
                     }
+                });
+            }
+
+            // Add image as painting on wall
+            if (roomChild.name === 'painting') {
+                var painting_texture = new THREE.TextureLoader().load(
+                    'textures/painting.png'
+                );
+                roomChild.material = new THREE.MeshBasicMaterial({
+                    map: painting_texture
                 });
             }
 
