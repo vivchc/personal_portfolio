@@ -29,13 +29,13 @@ export default class Floor {
     setCircles() {
         const geometry = new THREE.CircleGeometry(5, 64);
         // Create a circle for each section
-        const material1 = new THREE.MeshStandardMaterial({ color: '#85E0CF' });
+        const material1 = new THREE.MeshStandardMaterial({ color: '#6A8A7B' }); 
         this.circle1 = new THREE.Mesh(geometry, material1);
 
-        const material2 = new THREE.MeshStandardMaterial({ color: '#d88c91' });
+        const material2 = new THREE.MeshStandardMaterial({ color: '#996C53' }); 
         this.circle2 = new THREE.Mesh(geometry, material2);
 
-        const material3 = new THREE.MeshStandardMaterial({ color: '#93B5ED' });
+        const material3 = new THREE.MeshStandardMaterial({ color: '#728AA7' }); 
         this.circle3 = new THREE.Mesh(geometry, material3);
 
         // Make circles not overlap each other

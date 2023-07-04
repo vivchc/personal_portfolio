@@ -20,6 +20,10 @@ var colorObjectDict = {
     '#766B65': ['curtain_rod', 'wall_shelf'],
     // blue
     '#3b6597': ['tank', 'drawer_base', 'books_upright03'],
+    // light gray blue
+    '#768a8c': ['desk_top', 'rug'],
+    // medium gray blue (steps ONLY)
+    '#71888E': ['steps'],
     // dark gray blue
     '#526a75': [
         'laptop_screen',
@@ -27,10 +31,6 @@ var colorObjectDict = {
         'drawer_base_inside',
         'books_upright01'
     ],
-    // medium gray blue (steps ONLY)
-    '#71888E': ['steps'],
-    // light gray blue
-    '#768a8c': ['desk_top', 'rug'],
     // green
     '#3c564b': ['chair_seat', 'dumbbell_weights', 'plant_leaves'],
     // yellow
@@ -47,19 +47,19 @@ var colorObjectDict = {
     '#CF9763': ['lamp_head_inside'],
     // orange
     '#AE643D': ['cup', 'yoga_mat', 'books_down'],
+    // note: pink--make more red #ed6555
+    '#DB6D61': ['books_upright02', 'books_upright05'],
+    // lighter rust red (curtain ONLY)
+    '#C45647': ['curtain'],
+    // rust red
+    '#9B4638': ['bag_body', 'mini_table', 'mailbox_flag'],
     // red
     '#83221b': [
         'bag_top',
         'ipad_cover',
         'sticky_notes_clips',
         'books_upright04'
-    ],
-    // rust red
-    '#9B4638': ['bag_body', 'mini_table', 'mailbox_flag'],
-    // lighter rust red (curtain ONLY)
-    '#C45647': ['curtain'],
-    // pink
-    '#ed6555': ['books_upright02', 'books_upright05']
+    ]
 };
 
 export default function (roomChild) {
