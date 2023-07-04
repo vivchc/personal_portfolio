@@ -94,6 +94,21 @@ export default class Room {
                 });
             }
 
+            // Add image to whiteboard
+            if (roomChild.name === 'exercise_whiteboard') {
+                roomChild.children.forEach((child) => {
+                    if (child.name.includes('whiteboard')) {
+                        console.log('inside_whiteboard');
+                        var whiteboard_texture = new THREE.TextureLoader().load(
+                            'textures/whiteboard.png'
+                        );
+                        child.material = new THREE.MeshBasicMaterial({
+                            map: whiteboard_texture
+                        });
+                    }
+                });
+            }
+
             // Load cup for preloader
             if (roomChild.name === 'cup_for_intro') {
                 // Initial size
